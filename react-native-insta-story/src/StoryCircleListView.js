@@ -16,12 +16,13 @@ const StoryCircleListView = (props) => {
 
     return (
         // style={{ display: "flex", justifyContent: "center", backgroundColor: "yellow"}}
-        <View>
+        // <View style={{paddingLeft: "5%",}}>
+        <View >
             <FlatList
                 keyExtractor={(item, index) => index.toString()}
                 data={data}
                 horizontal
-                style={{paddingLeft: 4}}
+                // style={{paddingLeft: 4}}
                 showsVerticalScrollIndicator={false}
                 showsHorizontalScrollIndicator={false}
                 ListFooterComponent={<View style={{flex: 1, width: 8}}/>}

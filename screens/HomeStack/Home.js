@@ -7,7 +7,7 @@ import { doc, onSnapshot } from "firebase/firestore";
 import MapView from 'react-native-maps';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Restaurant from '../../Restaurant'
+import Restaurant from './Restaurant'
 import { collection, getDocs } from "firebase/firestore";
 
 
@@ -92,8 +92,8 @@ const Home = () => {
         distance={item.distance}
         category={item.category}
         yelp={item.yelp}
-        walkthrough={item.walkthrough}
-        navigation={navigation}/>
+        walkthrough={item.walkthrough} />
+        // navigation={navigation}/>
     );
   }
   

@@ -1,8 +1,11 @@
-import { StyleSheet, Text, View, SafeAreaView, Image } from "react-native";
-import React, { useEffect } from "react";
+import { StyleSheet, Text, View, SafeAreaView, Image, FlatList } from "react-native";
+import React, { useEffect, useState } from "react";
 
 import InstaStory from "../../react-native-insta-story/index";
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { db } from "../../firebase";
+import { collection, doc, getDocs } from "firebase/firestore";
+import Dish from "./Dish";
 
 
 const RestaurantPage = ({ navigation, route }) => {
@@ -10,7 +13,52 @@ const RestaurantPage = ({ navigation, route }) => {
   useEffect(() => {
     navigation.setOptions({ headerTitle: params.name, });
   })
-  
+  const [dishes, setDishes] = useState([]);
+
+  // Get all documents from a collection
+  const getAllDocuments = async (category) => {
+    // let allDocs = await getDocs(collection(db, params.name).collection(db, "menu").collection(db, category));
+    // console.log(category)
+    // let allDocs = await getDocs(collection(db, "restaurants").doc(db, "restaurant-1").collection(db, "mains"));
+    // let allDocs = await getDocs(doc(db, "restaurants", "restaurant-1").collection(db, "mains"));
+    let allDocs = await getDocs(collection(db, "restaurants", "L&L Hawaiian BBQ", "mains"));
+    // doc(db, "rooms", "roomA", "messages", "message1");
+    
+    // let allDocs = await getDocs(db.collection("restaurants").document("restaurant-1").collection("mains"));
+
+
+    // db.collection('rooms').doc('roomA').collection('messages').doc('message1');
+    // Printing out the array of documents (objects), probably put this in state variable
+    // [ {title: Dawn FM, artist: The Weeknd }, ... ]
+    let updated = (allDocs.docs.map((document) => {
+      return document.data();
+    }))
+    // let updatedRestaurants = getAllDocuments();
+    // console.log("updated: ")
+    // console.log(updated);
+    setDishes(updated);
+    // console.log("hello");
+  };
+
+  useEffect(() => {
+    getAllDocuments("mains");    // change to All
+  }, []);
+
+  const renderDishes = ({item, navigation}) => {
+    // console.log("dishes: ")
+    // console.log(dishes)
+    return (
+      <Dish
+        imageUrl={item.imageUrl}
+        name={item.name}
+        price={item.price} />
+        // navigation={navigation}/>
+    );
+  }
+
+  let category = "mains";
+  // getAllDocuments(category);
+  // console.log(dishes)
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -25,7 +73,62 @@ const RestaurantPage = ({ navigation, route }) => {
         </View>
       </View>
 
-      <View style={styles.walkthroughView}>
+      <View style={styles.containerMiddle}>
+        <View style={styles.walkthroughView}>
+          <View style={styles.restaurantInfoView}>
+            <Text style={styles.restaurantInfoText}>MORE INFORMATION</Text>
+          </View>
+          <View style={styles.walkthroughTitleView}>
+            <Text style={styles.sectionText}>WALKTHROUGH</Text>
+            <View style={styles.galleryView}>
+              <Ionicons name="grid-outline" size={18} style={styles.galleryIcon}></Ionicons>
+              <Text style={styles.galleryText}>GALLERY</Text>
+            </View>
+          </View>
+          <View style={styles.walkthroughFlatlistView}>
+            <InstaStory data={params.walkthrough}
+                duration={10}
+                // onStart={item => console.log(item)}
+                // onClose={item => console.log('close: ', item)}
+                // customSwipeUpComponent={<View></View>}
+                style={{marginTop: "2%"}}/>
+          </View>
+        </View>
+        
+        <View style={styles.menuView}>
+          <Text style={styles.sectionText}>MENU</Text>
+          <View style={styles.subtitlesView}>
+            <View style={styles.dropdownView}>
+              <Text style={styles.dishTypeText}>{category.charAt(0).toUpperCase() + category.slice(1)}</Text>
+              <Ionicons name="chevron-down-outline" size={18}></Ionicons>
+            </View>
+            <View style={styles.filterSortViews}>
+              <Text style={styles.filterSortText}>Filter</Text>
+              <Ionicons name="add-outline" size={18}></Ionicons>
+            </View>
+            <View style={styles.filterSortViews}>
+              <Text style={styles.filterSortText}>Sort</Text>
+              <Ionicons name="add-outline" size={18}></Ionicons>
+            </View>
+          </View>
+          {/* <FlatList 
+            data={dishes}
+            renderItem={({item}) => renderDishes({item})}
+            keyExtractor={(item) => item.name} 
+            numColumns={2} /> */}
+        </View>
+      </View>
+      <View style={styles.menuflatlistView}>
+        {/* <Text>yo</Text> */}
+        <FlatList 
+              data={dishes}
+              renderItem={({item}) => renderDishes({item})}
+              keyExtractor={(item) => item.name} 
+              numColumns={2} />
+      </View>
+      
+
+      {/* <View style={styles.walkthroughView}>
         <View style={styles.restaurantInfoView}>
           <Text style={styles.restaurantInfoText}>MORE INFORMATION</Text>
         </View>
@@ -48,7 +151,28 @@ const RestaurantPage = ({ navigation, route }) => {
       
       <View style={styles.menuView}>
         <Text style={styles.sectionText}>MENU</Text>
-      </View>
+        <View style={styles.subtitlesView}>
+          <View style={styles.dropdownView}>
+            <Text style={styles.dishTypeText}>{category}</Text>
+            <Ionicons name="chevron-down-outline" size={18}></Ionicons>
+          </View>
+          <View style={styles.filterSortViews}>
+            <Text style={styles.filterSortText}>Filter</Text>
+            <Ionicons name="add-outline" size={18}></Ionicons>
+          </View>
+          <View style={styles.filterSortViews}>
+            <Text style={styles.filterSortText}>Sort</Text>
+            <Ionicons name="add-outline" size={18}></Ionicons>
+          </View>
+        </View>
+        <FlatList 
+          data={dishes}
+          renderItem={({item}) => renderDishes({item})}
+          keyExtractor={(item) => item.name} 
+          numColumns={2} 
+          columnWrapperStyle={styles.row} />
+          {/* columnWrapperStyle={{justifyContent: 'space-between'}}/> */}
+      {/* </View> */} 
     </SafeAreaView>
   );
 };
@@ -62,6 +186,35 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "white",
     flex: 1,
+    // paddingHorizontal: "5%",
+  },
+  containerMiddle: {
+    justifyContent: "center",
+    alignItems: "center",
+    // backgroundColor: "yellow",
+    flex: 9,
+    width: "100%",
+    paddingHorizontal: "5%",
+    paddingBottom: "3%",
+  },
+  menuflatlistView: {
+    flex: 10,
+    width: "100%",
+    paddingLeft: "5%",
+    // height: "100%",
+    // backgroundColor: "green",
+  },
+  walkthroughFlatlistView: {
+    flex: 10,
+    width: "100%",
+    // paddingLeft: "5%",
+    // height: "100%",
+    // backgroundColor: "green",
+  },
+  row: {
+    flex: 1,
+    justifyContent: "space-between",
+    alignItems: "stretch"
   },
   text: {
     color: "black",
@@ -79,6 +232,7 @@ const styles = StyleSheet.create({
     paddingLeft: "14%",
     paddingRight: "10%",
     paddingTop: "1%",
+    paddingBottom: "3%",
   },
   bottomHeaderView: {
     display: "flex",
@@ -112,8 +266,8 @@ const styles = StyleSheet.create({
     // justifyContent: "center",
     // alignItems: "center",
     width: "100%",
-    paddingLeft: "5%",
-    paddingRight: "5%",
+    // paddingLeft: "5%",
+    // paddingRight: "5%",
     marginTop: "3%",
     marginBottom: "4%",
   },
@@ -138,19 +292,15 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
     // flex: 4,
   },
-  flatlistView: {
-    flex: 10,
-    // paddingLeft: "5%",
-    // backgroundColor: "gray",
-    // paddingRight: "5%",
-  },
   restaurantInfoView: {
     flex: 3,
     backgroundColor: "#F1EBEA",
     justifyContent: "center",
     width: "100%",
     borderRadius: 10,
-    marginBottom: "3%"
+    marginBottom: "3%",
+    // marginLeft: "5%",
+    // marginRight: "5%",
   },
   restaurantInfoText: {
     color: "black",
@@ -159,18 +309,54 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   menuView: {
-    flex: 7,
+    flex: 1,
     // backgroundColor: "purple",
     width: "100%",
-    paddingLeft: "5%",
-    paddingRight: "5%",
+    // paddingLeft: "0%",
+    // paddingRight: "5%",
   },
   sectionText: {
     color: "black",
     textAlign: 'left',
     fontSize: 26,
-    // marginBottom: 1,
+    marginBottom: 4,
     fontWeight: "bold",
-  }
+    // paddingLeft: "5%",
+  }, 
+  dishTypeText: {
+    color: "black",
+    textAlign: 'left',
+    fontSize: 18,
+    marginRight: 5,
+    fontWeight: "bold",
+  },
+  subtitlesView: {
+    display: "flex",
+    flexDirection: "row",
+    marginTop: 5,
+    marginBottom: 5,
+    
+  },
+  dropdownView: {
+    flex: 5,
+    display: "flex",
+    flexDirection: "row",
+    // marginBottom: "1%",
+    // paddingLeft: "5%",
+    // paddingRight: "5%",
+  },
+  filterSortViews: {
+    display: "flex",
+    flexDirection: "row",
+    flex: 1,
+    marginLeft: 12,
+    paddingRight: "5%",
+  },
+  filterSortText: {
+    color: "black",
+    textAlign: 'left',
+    fontSize: 18,
+    marginRight: 5,
+  },
 
 });

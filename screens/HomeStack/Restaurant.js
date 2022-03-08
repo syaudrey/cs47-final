@@ -18,7 +18,7 @@ export default function Restaurant({ imageUrl, name, distance, category, yelp, w
                 <Text style={styles.text}>{category}</Text>
                 <Text style={styles.text}>{distance} miles away</Text>
                 <View style={styles.yelpView}>
-                    <Image source={require("./assets/yelp.png")} style={styles.yelpIcon}/>
+                    <Image source={require("../.././assets/yelp.png")} style={styles.yelpIcon}/>
                     <Text style={styles.yelpBoldText}>{yelp}</Text>
                     <Text style={styles.yelpText}> / 5 </Text>
                 </View>
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
         height: Dimensions.get('window').height * 0.13,
         margin: 8,
         resizeMode: "cover",
-        flex: Platform.isPad ? 2 : 3,
+        flex: 3,
         marginLeft: "3%",
         marginRight: "3%",
         flex: 1,
