@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, SafeAreaView, Image, FlatList } from "react-native";
+import { StyleSheet, Text, View, SafeAreaView, Image, FlatList, Button, Pressable, Dimensions } from "react-native";
 import React, { useEffect, useState } from "react";
 
 import InstaStory from "../../react-native-insta-story/index";
@@ -6,7 +6,9 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { db } from "../../firebase";
 import { collection, doc, getDocs } from "firebase/firestore";
 import Dish from "./Dish";
-
+import Modal from "react-native-modal";
+import FilterModal from "./FilterModal";
+import SortModal from "./SortModal";
 
 const RestaurantPage = ({ navigation, route }) => {
   const params = route.params
@@ -56,6 +58,13 @@ const RestaurantPage = ({ navigation, route }) => {
     );
   }
 
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [actionTriggered, setActionTriggered] = useState('');
+
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
+
   let category = "mains";
   // getAllDocuments(category);
   // console.log(dishes)
@@ -100,16 +109,62 @@ const RestaurantPage = ({ navigation, route }) => {
           <View style={styles.subtitlesView}>
             <View style={styles.dropdownView}>
               <Text style={styles.dishTypeText}>{category.charAt(0).toUpperCase() + category.slice(1)}</Text>
-              <Ionicons name="chevron-down-outline" size={18}></Ionicons>
+              <Ionicons name="chevron-down-outline" size={22}></Ionicons>
             </View>
             <View style={styles.filterSortViews}>
               <Text style={styles.filterSortText}>Filter</Text>
-              <Ionicons name="add-outline" size={18}></Ionicons>
+              <Pressable onPress={() => {
+                  setModalVisible(true);
+                  setActionTriggered('filter');
+                }}>
+                <Ionicons name="add-outline" size={22}></Ionicons>
+              </Pressable>
             </View>
             <View style={styles.filterSortViews}>
               <Text style={styles.filterSortText}>Sort</Text>
-              <Ionicons name="add-outline" size={18}></Ionicons>
+              <Pressable onPress={() => {
+                  setModalVisible(true);
+                  setActionTriggered('sort');
+                }}>
+                <Ionicons name="add-outline" size={22}></Ionicons>
+              </Pressable>
             </View>
+
+            <Modal isVisible={isModalVisible} style={{ margin: 0 }}>
+              {actionTriggered === 'filter' ?
+                <View style={styles.modalView}>
+                  <Pressable onPress={toggleModal}>
+                    <Text style={styles.xOut}> x </Text>
+                  </Pressable>
+                  <View style={styles.filterSortHeaderView}>
+                    <Text style={styles.filterSortHeaderText}>Filter</Text>
+                  </View>
+                  <FilterModal/>
+                  <Pressable onPress={toggleModal}>
+                    <View style={styles.button}>
+                      <Text style={styles.buttonTitle}>APPLY FILTERS</Text>
+                    </View>
+                  </Pressable>
+                </View> :
+              actionTriggered === 'sort' ?
+                <View style={styles.modalView}>
+                  <Pressable onPress={toggleModal}>
+                    <Text style={styles.xOut} > x </Text>
+                  </Pressable>
+                  <View style={styles.filterSortHeaderView}>
+                    <Text style={styles.filterSortHeaderText}>Sort By</Text>
+                  </View>
+                  <SortModal/>
+                  <Pressable onPress={toggleModal}>
+                    <View style={styles.button}>
+                      <Text style={styles.buttonTitle}>APPLY SORT</Text>
+                    </View>
+                  </Pressable>
+                {/* <FilterModal/> */}
+              </View> :
+              null}
+            </Modal>
+
           </View>
           {/* <FlatList 
             data={dishes}
@@ -126,53 +181,6 @@ const RestaurantPage = ({ navigation, route }) => {
               keyExtractor={(item) => item.name} 
               numColumns={2} />
       </View>
-      
-
-      {/* <View style={styles.walkthroughView}>
-        <View style={styles.restaurantInfoView}>
-          <Text style={styles.restaurantInfoText}>MORE INFORMATION</Text>
-        </View>
-        <View style={styles.walkthroughTitleView}>
-          <Text style={styles.sectionText}>WALKTHROUGH</Text>
-          <View style={styles.galleryView}>
-            <Ionicons name="grid-outline" size={18} style={styles.galleryIcon}></Ionicons>
-            <Text style={styles.galleryText}>GALLERY</Text>
-          </View>
-        </View>
-        <View style={styles.flatlistView}>
-          <InstaStory data={params.walkthrough}
-              duration={10}
-              // onStart={item => console.log(item)}
-              // onClose={item => console.log('close: ', item)}
-              // customSwipeUpComponent={<View></View>}
-              style={{marginTop: "2%"}}/>
-        </View>
-      </View>
-      
-      <View style={styles.menuView}>
-        <Text style={styles.sectionText}>MENU</Text>
-        <View style={styles.subtitlesView}>
-          <View style={styles.dropdownView}>
-            <Text style={styles.dishTypeText}>{category}</Text>
-            <Ionicons name="chevron-down-outline" size={18}></Ionicons>
-          </View>
-          <View style={styles.filterSortViews}>
-            <Text style={styles.filterSortText}>Filter</Text>
-            <Ionicons name="add-outline" size={18}></Ionicons>
-          </View>
-          <View style={styles.filterSortViews}>
-            <Text style={styles.filterSortText}>Sort</Text>
-            <Ionicons name="add-outline" size={18}></Ionicons>
-          </View>
-        </View>
-        <FlatList 
-          data={dishes}
-          renderItem={({item}) => renderDishes({item})}
-          keyExtractor={(item) => item.name} 
-          numColumns={2} 
-          columnWrapperStyle={styles.row} />
-          {/* columnWrapperStyle={{justifyContent: 'space-between'}}/> */}
-      {/* </View> */} 
     </SafeAreaView>
   );
 };
@@ -348,15 +356,81 @@ const styles = StyleSheet.create({
   filterSortViews: {
     display: "flex",
     flexDirection: "row",
+    justifyContent: "flex-end",
     flex: 1,
-    marginLeft: 12,
-    paddingRight: "5%",
+    marginLeft: 24,
+    // paddingRight: "5%",
+    // backgroundColor: "yellow",
   },
   filterSortText: {
     color: "black",
     textAlign: 'left',
     fontSize: 18,
-    marginRight: 5,
+    marginRight: 2,
+    marginLeft: 4,
+  },
+  modalView: {
+    // flex: 1,
+    // display: "flex",
+    // flexDirection: "row",
+    height: "100%",
+    width: "100%",
+    backgroundColor: "#F1EBEA",
+    borderRadius: 36,
+    // marginLeft: 0,
+    marginTop: "24%",
+  },
+  xOut: {
+    fontSize: 28,
+    marginLeft: "4%",
+    marginTop: "4%",
+
+  },
+  filterSortHeader: {
+    display: "flex",
+    flexDirection: "row",
+
+  },
+  filterSortHeaderText: {
+    color: "black",
+    // textAlign: 'center',
+    fontSize: 24,
+    marginRight: 2,
+    marginLeft: 4,
+    fontWeight: "500",
+    // position: 'absolute',
+    // marginTop: 60,
+    // top: Dimensions.get('window').height,
+  }, 
+  filterSortHeaderView: {
+    // color: "black",
+    // textAlign: 'center',
+    position: 'absolute',
+    top: "2%",
+    // left: 0,
+    alignSelf: 'center',
+    justifyContent: 'center', 
+    alignItems: 'center',
+    // marginTop: 60,
+    // top: Dimensions.get('window').height,
+  }, 
+  button: {
+    backgroundColor: '#f8b432',
+    borderRadius: 10,    
+    height: 42,   
+    width: Dimensions.get('window').width * 0.8,
+    marginLeft: "10%",
+    marginRight: 100,
+    // marginVertical: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    position: 'absolute',
+    bottom: 130,
+  },
+  buttonTitle: {
+    fontSize: 18,
+    fontWeight: 'bold', 
+    color: "black",
   },
 
 });
