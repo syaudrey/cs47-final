@@ -16,6 +16,7 @@ const RestaurantPage = ({ navigation, route }) => {
     navigation.setOptions({ headerTitle: params.name, });
   })
   const [dishes, setDishes] = useState([]);
+  const [toggle, setToggle] = useState(false);
   const [restrictions, setRestrictions] = useState([]);
   const [diets, setDiets] = useState([]);
   const [chosenRestrictions, setChosenRestrictions] = useState([]);
@@ -97,8 +98,12 @@ const RestaurantPage = ({ navigation, route }) => {
 
   const applyFilters = () => {
     setModalVisible(!isModalVisible);
-    let combinedRestrictions = [...new Set([...restrictions, ...chosenRestrictions])]
-    let combinedDiets = [...new Set([...diets, ...chosenDiets])]
+    let combinedRestrictions = restrictions
+    let combinedDiets = diets
+    if (toggle) {
+      combinedRestrictions = [...new Set([...restrictions, ...chosenRestrictions])]
+      combinedDiets = [...new Set([...diets, ...chosenDiets])]
+    }
     console.log("yo")
     console.log(combinedRestrictions)
     console.log("hi")
@@ -129,7 +134,7 @@ const RestaurantPage = ({ navigation, route }) => {
 
   let category = "mains";
   // getAllDocuments(category);
-  // console.log(dishes)
+  console.log(chosenRestrictions)
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -201,7 +206,12 @@ const RestaurantPage = ({ navigation, route }) => {
                   <View style={styles.filterSortHeaderView}>
                     <Text style={styles.filterSortHeaderText}>Filter</Text>
                   </View>
-                  <FilterModal/>
+                  <FilterModal isEnabled={toggle}
+                              setIsEnabled={setToggle} 
+                              chosenRestrictions={chosenRestrictions}
+                              setChosenRestrictions={setChosenRestrictions} 
+                              chosenDiets={chosenDiets}
+                              setChosenDiets={setChosenDiets} />
                   <Pressable onPress={applyFilters}>
                     <View style={styles.button}>
                       <Text style={styles.buttonTitle}>APPLY FILTERS</Text>

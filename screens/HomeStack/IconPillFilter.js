@@ -8,9 +8,32 @@ import FontAwesome, {
   parseIconFromClassName,
 } from 'react-native-fontawesome';
 
-const IconPill = ({ itemName, iconName }) => {
+const IconPillFilter = ({ itemName, iconName, chosenRestrictions, setChosenRestrictions, chosenDiets, setChosenDiets, type }) => {
   const [pressed, setPressed] = React.useState(false);
   const parsedIcon = parseIconFromClassName('fa-solid fa-leaf');
+
+  const handlePress = () => {
+    console.log("before:")
+    console.log(chosenRestrictions)
+    console.log(chosenDiets)
+    if (!pressed) {
+      if (type == "restriction" && !chosenRestrictions.includes(itemName) && itemName != "+ More") {
+        setChosenRestrictions(chosenRestrictions.push(itemName))
+      } else if (type == "diet" && !chosenDiets.includes(itemName) && itemName != "+ More") {
+        setChosenDiets(chosenDiets.push(itemName))
+      }
+    } else {
+      if (type == "restriction" && chosenRestrictions.includes(itemName) && itemName != "+ More") {
+        setChosenRestrictions(chosenRestrictions.splice(chosenRestrictions.indexOf(itemName), 1))
+      } else if (type == "diet" && chosenDiets.includes(itemName) && itemName != "+ More") {
+        setChosenDiets(chosenDiets.splice(chosenDiets.indexOf(itemName), 1))
+      }
+    }
+    setPressed(!pressed)
+    console.log("after:")
+    console.log(chosenRestrictions)
+    console.log(chosenDiets)
+  }
 
   return (
     <View style={styles.container}>
@@ -19,13 +42,13 @@ const IconPill = ({ itemName, iconName }) => {
         buttonStyle={pressed ? styles.buttonPressed : styles.button} 
         titleStyle={pressed ? styles.textPressed : styles.text} 
         containerStyle={styles.buttonContainer} 
-        onPress={() => setPressed(!pressed)}
+        onPress={handlePress}
       />
     </View>
   );
 };
 
-export default IconPill;
+export default IconPillFilter;
 
 const styles = StyleSheet.create({
   container: {

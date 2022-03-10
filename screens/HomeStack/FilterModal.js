@@ -2,12 +2,12 @@ import { StyleSheet, Text, View, Pressable, Button, Switch } from "react-native"
 import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 
-import DietaryRestrictions from "../OnboardingProfileStack/DietaryRestrictions";
-import SpecialDiets from "../OnboardingProfileStack/SpecialDiets";
+import DietaryRestrictionsFilter from "./DietaryRestrictionsFilter";
+import SpecialDietsFilter from "./SpecialDietsFilter";
 
 
 
-const FilterModal = () => {
+const FilterModal = ({isEnabled, setIsEnabled}) => {
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -15,12 +15,12 @@ const FilterModal = () => {
     return () => navigation.getParent()?.setOptions({ tabBarStyle: {backgroundColor: "#f8b432", paddingBottom: "4%",}, });
   }, [navigation]);
 
-  const [isEnabled, setIsEnabled] = useState(false);
+  // const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => {
       setIsEnabled(previousState => !previousState);
 
   };
-
+  // console.log("hellooolol")
   return (
     <View style={styles.container}>
 
@@ -34,15 +34,15 @@ const FilterModal = () => {
                 value={isEnabled}
             />
         </View>
-
+        
         <View style={styles.body}>
             <Text style={styles.header}>Dietary Restrictions</Text>
-            <DietaryRestrictions />
+            <DietaryRestrictionsFilter />
         </View>
 
         <View style={styles.body}>
             <Text style={styles.header}>Special Diets</Text>
-            <SpecialDiets />
+            <SpecialDietsFilter />
         </View>
 
         <View style={styles.bottom}>
