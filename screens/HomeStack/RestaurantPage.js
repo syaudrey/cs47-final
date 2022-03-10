@@ -52,9 +52,12 @@ const RestaurantPage = ({ navigation, route }) => {
 
     if (docSnap.exists()) {
       // setSongData(docSnap.data());
-      const result = [...new Set([...restrictions, ...docSnap.data().restrictions])]
-      console.log(result)
-      setRestrictions(result);
+      const updatedRestrictions = [...new Set([...restrictions, ...docSnap.data().restrictions])]
+      const updatedDiets = [...new Set([...diets, ...docSnap.data().diets])]
+      console.log(updatedRestrictions)
+      console.log(updatedDiets)
+      setRestrictions(updatedRestrictions);
+      setDiets(updatedDiets);
     } else {
       // doc.data() will be undefined in this case
       console.log("No such document!");
@@ -63,7 +66,7 @@ const RestaurantPage = ({ navigation, route }) => {
 
   useEffect(() => {
     getDishesInCat("mains");    // change to All
-    getPreferences("user")
+    getPreferences("user");
   }, []);
 
   const renderDishes = ({item, navigation}) => {
@@ -91,9 +94,22 @@ const RestaurantPage = ({ navigation, route }) => {
     setModalVisible(!isModalVisible);
   };
 
+
   const applyFilters = () => {
     setModalVisible(!isModalVisible);
+    let combinedRestrictions = [...new Set([...restrictions, ...chosenRestrictions])]
+    let combinedDiets = [...new Set([...diets, ...chosenDiets])]
+    console.log("yo")
+    console.log(combinedRestrictions)
+    console.log("hi")
+    const updated = dishes.filter(dish => !combinedRestrictions.some(r => dish.restrictions.includes(r)));
+    // const updated = dishes.filter(checkRestrictions);
+    console.log(updated)
+    setDishes(updated)
 
+
+    // setDishes(updated.filter(dish => combinedDiets.every(val => dish.diets.includes(val))));
+  
   };
 
   const applySort = () => {
@@ -102,7 +118,6 @@ const RestaurantPage = ({ navigation, route }) => {
       console.log("try change")
       // setDishes(dishes.sort((a, b) => (a.popularity > b.popularity ? 1 : -1)))
       dishes.sort((a, b) => (a.popularity < b.popularity ? 1 : -1))   
-
     } else if (sortBy === "Wait time") {
       dishes.sort((a, b) => (a.wait > b.wait ? 1 : -1))   
     } else if (sortBy === "Price: low to high") {
@@ -178,7 +193,7 @@ const RestaurantPage = ({ navigation, route }) => {
             </View>
 
             <Modal isVisible={isModalVisible} style={{ margin: 0 }}>
-              {actionTriggered === 'filter' ?
+              <>{actionTriggered === 'filter' ?
                 <View style={styles.modalView}>
                   <Pressable onPress={toggleModal}>
                     <Text style={styles.xOut}> x </Text>
@@ -187,7 +202,7 @@ const RestaurantPage = ({ navigation, route }) => {
                     <Text style={styles.filterSortHeaderText}>Filter</Text>
                   </View>
                   <FilterModal/>
-                  <Pressable onPress={toggleModal}>
+                  <Pressable onPress={applyFilters}>
                     <View style={styles.button}>
                       <Text style={styles.buttonTitle}>APPLY FILTERS</Text>
                     </View>
@@ -209,7 +224,7 @@ const RestaurantPage = ({ navigation, route }) => {
                   </Pressable>
                 {/* <FilterModal/> */}
               </View> :
-              null}
+              null}</>
             </Modal>
 
           </View>
@@ -287,7 +302,7 @@ const styles = StyleSheet.create({
     paddingLeft: "14%",
     paddingRight: "10%",
     paddingTop: "1%",
-    paddingBottom: "3%",
+    paddingBottom: "4%",
   },
   bottomHeaderView: {
     display: "flex",
@@ -374,7 +389,7 @@ const styles = StyleSheet.create({
     color: "black",
     textAlign: 'left',
     fontSize: 26,
-    marginBottom: 4,
+    // marginBottom: 1,
     fontWeight: "bold",
     // paddingLeft: "5%",
   }, 
@@ -393,7 +408,7 @@ const styles = StyleSheet.create({
     
   },
   dropdownView: {
-    flex: 5,
+    flex: 4,
     display: "flex",
     flexDirection: "row",
     // marginBottom: "1%",
@@ -405,7 +420,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-end",
     flex: 1,
-    marginLeft: 24,
+    marginLeft: 18,
     // paddingRight: "5%",
     // backgroundColor: "yellow",
   },
@@ -414,7 +429,7 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     fontSize: 18,
     marginRight: 2,
-    marginLeft: 4,
+    marginLeft: 3,
   },
   modalView: {
     // flex: 1,
