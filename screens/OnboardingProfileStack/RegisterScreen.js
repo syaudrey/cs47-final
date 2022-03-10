@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     paddingTop: '20%',
     paddingBottom: '8%',
-    paddingHorizontal: '10%',
+    paddingHorizontal: '5%',
   },
 
   top: {
@@ -111,6 +111,7 @@ const styles = StyleSheet.create({
     alignItems: "stretch",
     justifyContent: "center",
     paddingHorizontal: '2%',
+    paddingHorizontal: '5%',
   },
   field: {
     paddingVertical: '5%',
@@ -150,5 +151,6 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     width: '100%',
+    paddingHorizontal: '5%',
   },
 });

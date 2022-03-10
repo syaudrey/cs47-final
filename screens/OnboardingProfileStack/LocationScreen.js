@@ -17,8 +17,8 @@ const LocationScreen = ({ setFinishedOnboarding }) => {
 
       <View style={styles.header}>
         <Ionicons name='location-outline' size={80} style={styles.icon} />
-      <Text style={styles.title}>Set Your Location!</Text>
-      <Text style={styles.subtitle}>noms simplifies dining options in your area</Text>
+        <Text style={styles.title}>Set Your Location!</Text>
+        <Text style={styles.subtitle}>noms simplifies dining options in your area</Text>
       </View>
 
       <View style={styles.body}>
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingTop: '20%',
     paddingBottom: '8%',
-    paddingHorizontal: '10%',
+    paddingHorizontal: '5%',
     backgroundColor: '#f8b432',
   },
 
@@ -64,6 +64,7 @@ const styles = StyleSheet.create({
     flex: 2,
     alignItems: "center",
     justifyContent: "center",
+    paddingHorizontal: '5%',
   },
   icon: {
     color: 'black',
@@ -84,7 +85,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    paddingHorizontal: '6%',
+    paddingHorizontal: '10%',
   },
   button: {
     backgroundColor: 'white',
@@ -110,7 +111,7 @@ const styles = StyleSheet.create({
     height: '10%', 
     alignItems: "center",
     justifyContent: "center",
-    paddingHorizontal: '6%',
+    paddingHorizontal: '10%',
   },
   bottomText: {
     fontSize: 18,

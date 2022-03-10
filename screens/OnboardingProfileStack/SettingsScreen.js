@@ -113,25 +113,26 @@ const styles = StyleSheet.create({
     backgroundColor: '#F1EBEA',
     paddingTop: '20%',
     paddingBottom: '8%',
-    paddingHorizontal: '8%',
+    paddingHorizontal: '5%',
   },
 
   top: {
     flex: 1,
     alignItems: "flex-start",
+    paddingHorizontal: '3%',
   },
   header: {
     fontSize: 32,
     fontWeight: '800',
-    paddingHorizontal: '2%',
     paddingBottom: '10%',
+    paddingHorizontal: '5%',
   },
 
   body: {
     flex: 8,
     alignItems: "flex-start",
     justifyContent: "flex-start",
-    paddingHorizontal: '2%',
+    paddingHorizontal: '5%',
   },
   section: {
     paddingBottom: '15%',
@@ -180,6 +181,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     width: '100%',
+    paddingHorizontal: '5%',
   },
 
 });

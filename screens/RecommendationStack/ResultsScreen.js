@@ -84,8 +84,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: "center",
     paddingBottom: '2%',
-    paddingLeft: '10%',
-    paddingRight: '10%',
+    paddingHorizontal: '5%',
   },
   title: {
     fontSize: 30,

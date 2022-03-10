@@ -61,8 +61,7 @@ const styles = StyleSheet.create({
   top: {
     flex: 2.5,
     alignItems: "flex-start",
-    paddingLeft: '10%',
-    paddingRight: '8%',
+    paddingHorizontal: '8%',
   },
   settings: {
     flexDirection: 'row',
@@ -89,16 +88,14 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     paddingBottom: '5%',
-    paddingLeft: '10%',
-    paddingRight: '10%',
+    paddingHorizontal: '8%',
   },
 
   bottom: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    paddingLeft: '10%',
-    paddingRight: '10%',
+    paddingHorizontal: '10%',
   },
   bottomText: {
     fontSize: 18,

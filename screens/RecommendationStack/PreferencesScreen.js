@@ -101,22 +101,30 @@ const PreferencesScreen = () => {
             <Text style={styles.text}>Dietary Restrictions</Text>
             <Switch
               trackColor={{ false: 'grey', true: "#f8b432" }}
-              thumbColor={diets ? 'white' : 'darkgrey'}
-              value={diets}
-              onValueChange={() => setDiets(!diets)}
-              style={{ transform: [{ scaleX: .8 }, { scaleY: .8 }] }}
-            />
-          </View>
-          <View style={styles.row}>
-            <Text style={styles.text}>Special Diets</Text>
-            <Switch
-              trackColor={{ false: 'grey', true: "#f8b432" }}
               thumbColor={restrictions ? 'white' : 'darkgrey'}
               value={restrictions}
               onValueChange={() => setRestrictions(!restrictions)}
               style={{ transform: [{ scaleX: .8 }, { scaleY: .8 }] }}
             />
           </View>
+          { restrictions ?
+            <Text style={styles.subText}>eggs, milk, fish</Text>
+            : null
+          }
+          <View style={styles.row}>
+            <Text style={styles.text}>Special Diets</Text>
+            <Switch
+              trackColor={{ false: 'grey', true: "#f8b432" }}
+              thumbColor={diets ? 'white' : 'darkgrey'}
+              value={diets}
+              onValueChange={() => setDiets(!diets)}
+              style={{ transform: [{ scaleX: .8 }, { scaleY: .8 }] }}
+            />
+          </View>
+          { diets ?
+            <Text style={styles.subText}>vegetarian</Text>
+            : null
+          }
           <Pressable onPress={() => {navigation.navigate("OnboardingProfileStack")}}>
             <View style={styles.editRow}>
             <Text style={styles.editChoice}>EDIT CHOICES</Text>
@@ -154,8 +162,7 @@ const styles = StyleSheet.create({
   top: {
     alignItems: "center",
     paddingBottom: '2%',
-    paddingLeft: '10%',
-    paddingRight: '10%',
+    paddingHorizontal: '5%',
   },
   title: {
     fontSize: 30,
@@ -174,16 +181,14 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     justifyContent: "flex-start",
     paddingBottom: '6%',
-    paddingLeft: '10%',
-    paddingRight: '10%',
+    paddingHorizontal: '10%',
   },
   header: {
     fontSize: 24,
-    fontWeight: '800',
+    fontWeight: 'bold',
     paddingTop: '4%',
     paddingBottom: '4%',
-    paddingLeft: '10%',
-    paddingRight: '10%',
+    paddingHorizontal: '8%',
   },
   sliderText: {
     fontSize: 20,
@@ -242,7 +247,15 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 20,
     fontWeight: '300',
+    paddingBottom: '4%',
+  },
+  subText: {
+    fontSize: 16,
     paddingBottom: '6%',
+    paddingLeft: '2%',
+    fontWeight: '500',
+    fontStyle: 'italic',
+    color: 'grey',
   },
   row: {
     width: '100%',
@@ -260,8 +273,8 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
-    paddingTop: '2%',
-    paddingBottom: '4%',
+    paddingTop: '4%',
+    paddingBottom: '2%',
   },
 
   bottom: {
