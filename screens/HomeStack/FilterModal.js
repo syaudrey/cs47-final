@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     // backgroundColor: 'white',
     paddingTop: "12%",
-    paddingHorizontal: '12%',
+    paddingHorizontal: '2%',
     // flex: 1,
     height: "100%",
     width: "100%",
@@ -125,6 +125,7 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 20,
     marginRight: 10,
+    marginLeft: "8%",
   },
 
   body: {
@@ -136,6 +137,7 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 24,
     fontWeight: 'bold',
+    marginLeft: "8%",
     paddingBottom: 16,
   },
 
