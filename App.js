@@ -8,7 +8,7 @@ import RecommendationStack from "./screens/RecommendationStack";
 import OnboardingProfileStack from "./screens/OnboardingProfileStack";
 
 import { useEffect } from "react";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, getFocusedRouteNameFromRoute } from '@react-navigation/native';
 
 
 const Tab = createBottomTabNavigator();

@@ -1,6 +1,7 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Pressable } from "react-native";
 import React, { useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import DietaryRestrictions from "./DietaryRestrictions";
 import SpecialDiets from "./SpecialDiets";
@@ -10,15 +11,20 @@ const ProfileScreen = ({ firstName }) => {
 
   useEffect(() => {
     navigation.getParent()?.setOptions({ tabBarStyle: {backgroundColor: "#f8b432", paddingBottom: "4%",},});
-    return () => navigation.getParent()?.setOptions({ tabBarStyle: {backgroundColor: "#f8b432", paddingBottom: "4%",}, });
-  }, [navigation]);
+  });
 
   return (
     <View style={styles.container}>
 
       <View style={styles.top}>
-        <Text style={styles.title}>Hey, {firstName}</Text>
-        <Text style={styles.subtitle}>Complete your dietary profile!</Text>
+        <View style={styles.settings}>
+          <Text style={styles.title}>Hey, {firstName}</Text>
+          <Pressable onPress={() => navigation.navigate('SettingsScreen')}>
+            <Ionicons name='settings-outline' size={30} color='black' />
+          </Pressable>
+        </View>
+        
+        <Text style={styles.subtitle}>Get noms to work just for you!</Text>
       </View>
 
       <View style={styles.body}>
@@ -31,8 +37,8 @@ const ProfileScreen = ({ firstName }) => {
         <SpecialDiets />
       </View>
 
-      <View style={styles.bottom}>
-        <Text style={styles.bottomText}>Your choices help us filter and recommend food that works for you.</Text>
+      <View style={styles.bottom}> 
+        <Text style={styles.bottomText}>Come back and update your choices at any time! </Text>
       </View>
 
       
@@ -48,46 +54,59 @@ const styles = StyleSheet.create({
     alignItems: "stretch",
     justifyContent: "center",
     backgroundColor: 'white',
-    paddingTop: 80,
-    paddingHorizontal: '12%',
+    paddingTop: '20%',
+    paddingBottom: '8%',
   },
 
   top: {
-    flex: 2,
+    flex: 2.5,
     alignItems: "flex-start",
-    justifyContent: "flex-start",
+    paddingLeft: '10%',
+    paddingRight: '8%',
+  },
+  settings: {
+    flexDirection: 'row',
+    alignSelf: "stretch",
+    justifyContent: 'space-between',
   },
   title: {
-    fontSize: 32,
+    fontSize: 30,
     fontWeight: '800',
-    paddingBottom: 12,
+    paddingBottom: '4%',
   },
   subtitle: {
     fontSize: 20,
+    fontWeight: '300',
+    paddingBottom: '2%',
   },
 
   body: {
-    flex: 4,
+    flex: 5,
     alignItems: "flex-start",
     justifyContent: "flex-start",
   },
   header: {
     fontSize: 24,
     fontWeight: 'bold',
-    paddingBottom: 16,
+    paddingBottom: '5%',
+    paddingLeft: '10%',
+    paddingRight: '10%',
   },
 
   bottom: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "flex-start",
+    justifyContent: "center",
+    paddingLeft: '10%',
+    paddingRight: '10%',
   },
   bottomText: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '300',
     fontStyle: 'italic',
     color: 'grey',
     textAlign: 'center',
-  }
+  },
+  
 
 });

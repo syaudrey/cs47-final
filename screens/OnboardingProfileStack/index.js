@@ -6,6 +6,7 @@ import ProfileScreen from "./ProfileScreen";
 import OnboardingSwiper from "./OnboardingSwiper";
 import RegisterScreen from "./RegisterScreen";
 import LocationScreen from "./LocationScreen";
+import SettingsScreen from "./SettingsScreen";
 
 const Stack = createStackNavigator();
 
@@ -57,6 +58,7 @@ const OnboardingProfileStack = () => {
           />
         )}
       </Stack.Screen>
+      <Stack.Screen name="SettingsScreen" component={SettingsScreen} />
     </Stack.Navigator>
   );
 };

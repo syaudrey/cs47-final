@@ -1,19 +1,12 @@
 import { StyleSheet, Text, View } from "react-native";
 import React, { useState, useEffect } from "react";
 import { Button } from 'react-native-elements';
-import FontAwesome, {
-  SolidIcons,
-  RegularIcons,
-  BrandIcons,
-  parseIconFromClassName,
-} from 'react-native-fontawesome';
 
 const IconPill = ({ itemName, iconName }) => {
   const [pressed, setPressed] = React.useState(false);
-  const parsedIcon = parseIconFromClassName('fa-solid fa-leaf');
 
   return (
-    <View style={styles.container}>
+    <View>
       <Button 
         title={itemName}
         buttonStyle={pressed ? styles.buttonPressed : styles.button} 
@@ -28,9 +21,6 @@ const IconPill = ({ itemName, iconName }) => {
 export default IconPill;
 
 const styles = StyleSheet.create({
-  container: {
-  },
-
   button: {
     backgroundColor: 'white',
     borderColor: 'grey',  
@@ -56,7 +46,7 @@ const styles = StyleSheet.create({
     padding: '2%',
   },
   buttonContainer: {
-    padding: '5%',
+    padding: '4%',
   },
 
 });
