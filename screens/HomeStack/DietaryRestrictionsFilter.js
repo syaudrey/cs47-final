@@ -3,47 +3,109 @@ import React from "react";
 
 import IconPillFilter from "./IconPillFilter";
 
-const DietaryRestrictionsFilter = ({chosenRestrictions, setChosenRestrictions, chosenDiets, setChosenDiets }) => {
-    // console.log("in dietaryrestrictions")
-    // console.log(chosenRestrictions)
+const DietaryRestrictionsFilter = ({ isEnabled, restrictions, chosenRestrictions, setChosenRestrictions, diets, chosenDiets, setChosenDiets }) => {
+
   return (
     <View style={styles.container}>
-      <IconPillFilter iconName={"X"} itemName={"milk"} type={"restriction"} chosenRestrictions={chosenRestrictions}
-                              setChosenRestrictions={setChosenRestrictions} 
-                              chosenDiets={chosenDiets}
-                              setChosenDiets={setChosenDiets}/>
-      <IconPillFilter iconName={"X"} itemName={"fish"}  type={"restriction"} chosenRestrictions={chosenRestrictions}
-                              setChosenRestrictions={setChosenRestrictions} 
-                              chosenDiets={chosenDiets}
-                              setChosenDiets={setChosenDiets} />
-      <IconPillFilter iconName={"X"} itemName={"shellfish"} type={"restriction"} chosenRestrictions={chosenRestrictions}
-                              setChosenRestrictions={setChosenRestrictions} 
-                              chosenDiets={chosenDiets}
-                              setChosenDiets={setChosenDiets} />
-      <IconPillFilter iconName={"X"} itemName={"eggs"} type={"restriction"} chosenRestrictions={chosenRestrictions}
-                              setChosenRestrictions={setChosenRestrictions} 
-                              chosenDiets={chosenDiets}
-                              setChosenDiets={setChosenDiets} />
-      <IconPillFilter iconName={"X"} itemName={"peanuts"} type={"restriction"} chosenRestrictions={chosenRestrictions}
-                              setChosenRestrictions={setChosenRestrictions} 
-                              chosenDiets={chosenDiets}
-                              setChosenDiets={setChosenDiets} />
-      <IconPillFilter iconName={"X"} itemName={"tree nuts"} type={"restriction"} chosenRestrictions={chosenRestrictions}
-                              setChosenRestrictions={setChosenRestrictions} 
-                              chosenDiets={chosenDiets}
-                              setChosenDiets={setChosenDiets} />
-      <IconPillFilter iconName={"X"} itemName={"soy"} type={"restriction"} chosenRestrictions={chosenRestrictions}
-                              setChosenRestrictions={setChosenRestrictions} 
-                              chosenDiets={chosenDiets}
-                              setChosenDiets={setChosenDiets} />
-      <IconPillFilter iconName={"X"} itemName={"wheat"} type={"restriction"} chosenRestrictions={chosenRestrictions}
-                              setChosenRestrictions={setChosenRestrictions} 
-                              chosenDiets={chosenDiets}
-                              setChosenDiets={setChosenDiets} />
-      <IconPillFilter iconName={"+"} itemName={"+ More"} type={"restriction"} chosenRestrictions={chosenRestrictions}
-                              setChosenRestrictions={setChosenRestrictions} 
-                              chosenDiets={chosenDiets}
-                              setChosenDiets={setChosenDiets} />
+      <IconPillFilter 
+        itemName={"milk"} 
+        type={"restriction"} 
+        isEnabled={isEnabled}
+        restrictions={restrictions}
+        chosenRestrictions={chosenRestrictions}
+        setChosenRestrictions={setChosenRestrictions} 
+        diets={diets}
+        chosenDiets={chosenDiets}
+        setChosenDiets={setChosenDiets}
+      />
+      <IconPillFilter 
+        itemName={"eggs"} 
+        type={"restriction"}  
+        isEnabled={isEnabled}
+        restrictions={restrictions}
+        chosenRestrictions={chosenRestrictions}
+        setChosenRestrictions={setChosenRestrictions} 
+        diets={diets}
+        chosenDiets={chosenDiets}
+        setChosenDiets={setChosenDiets}
+      />
+      <IconPillFilter 
+        itemName={"lactose"} 
+        type={"restriction"}  
+        isEnabled={isEnabled}
+        restrictions={restrictions}
+        chosenRestrictions={chosenRestrictions}
+        setChosenRestrictions={setChosenRestrictions} 
+        diets={diets}
+        chosenDiets={chosenDiets}
+        setChosenDiets={setChosenDiets}
+      />
+      <IconPillFilter 
+        itemName={"fish"} 
+        type={"restriction"}  
+        isEnabled={isEnabled}
+        restrictions={restrictions}
+        chosenRestrictions={chosenRestrictions}
+        setChosenRestrictions={setChosenRestrictions} 
+        diets={diets}
+        chosenDiets={chosenDiets}
+        setChosenDiets={setChosenDiets}
+      />
+      <IconPillFilter 
+        itemName={"shellfish"} 
+        type={"restriction"}  
+        isEnabled={isEnabled}
+        restrictions={restrictions}
+        chosenRestrictions={chosenRestrictions}
+        setChosenRestrictions={setChosenRestrictions}
+        diets={diets} 
+        chosenDiets={chosenDiets}
+        setChosenDiets={setChosenDiets}
+      />
+      <IconPillFilter 
+        itemName={"peanuts"} 
+        type={"restriction"}  
+        isEnabled={isEnabled}
+        restrictions={restrictions}
+        chosenRestrictions={chosenRestrictions}
+        setChosenRestrictions={setChosenRestrictions} 
+        diets={diets}
+        chosenDiets={chosenDiets}
+        setChosenDiets={setChosenDiets}
+      />
+      <IconPillFilter 
+        itemName={"soy"} 
+        type={"restriction"}  
+        isEnabled={isEnabled}
+        restrictions={restrictions}
+        chosenRestrictions={chosenRestrictions}
+        setChosenRestrictions={setChosenRestrictions} 
+        diets={diets}
+        chosenDiets={chosenDiets}
+        setChosenDiets={setChosenDiets}
+      />
+      <IconPillFilter 
+        itemName={"gluten"} 
+        type={"restriction"}  
+        isEnabled={isEnabled}
+        restrictions={restrictions}
+        chosenRestrictions={chosenRestrictions}
+        setChosenRestrictions={setChosenRestrictions} 
+        diets={diets}
+        chosenDiets={chosenDiets}
+        setChosenDiets={setChosenDiets}
+      />
+      <IconPillFilter 
+        itemName={"+ More"} 
+        type={"restriction"}  
+        isEnabled={isEnabled}
+        restrictions={restrictions}
+        chosenRestrictions={chosenRestrictions}
+        setChosenRestrictions={setChosenRestrictions} 
+        diets={diets}
+        chosenDiets={chosenDiets}
+        setChosenDiets={setChosenDiets}
+      />
     </View>
   );
 };

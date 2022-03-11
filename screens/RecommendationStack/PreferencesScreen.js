@@ -61,6 +61,7 @@ const PreferencesScreen = ({ currentUser }) => {
         setDiets("none");
       }
     });
+    return unsub;
   }, []);
 
   return (
@@ -270,7 +271,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 20,
     fontWeight: '300',
-    paddingBottom: '4%',
+    paddingBottom: '3%',
   },
   subText: {
     fontSize: 16,
@@ -315,7 +316,7 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   buttonContainer: {
-    width: '80%',
+    width: '84%',
     marginBottom: '6%',
   },
   
