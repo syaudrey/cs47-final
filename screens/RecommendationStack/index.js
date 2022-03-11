@@ -8,16 +8,30 @@ import ResultsScreen from "./ResultsScreen";
 
 const Stack = createStackNavigator();
 
-const RecommendationStack = () => {
+const RecommendationStack = ({ currentUser }) => {
   return (
     <Stack.Navigator
       screenOptions={{
         headerShown: false
       }}
     >
-      <Stack.Screen name="PreferencesScreen" component={PreferencesScreen} />
+      <Stack.Screen name="PreferencesScreen">
+        {(props) => (
+          <PreferencesScreen
+            {...props}
+            currentUser={currentUser}
+          />
+        )}
+      </Stack.Screen>
       <Stack.Screen name="QuestionsScreen" component={QuestionsScreen} />
-      <Stack.Screen name="ResultsScreen" component={ResultsScreen} />
+      <Stack.Screen name="ResultsScreen">
+        {(props) => (
+          <ResultsScreen
+            {...props}
+            currentUser={currentUser}
+          />
+        )}
+      </Stack.Screen>
     </Stack.Navigator>
   );
 };

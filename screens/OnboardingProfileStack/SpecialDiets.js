@@ -3,16 +3,16 @@ import React from "react";
 
 import IconPill from "./IconPill";
 
-const SpecialDiets = () => {
+const SpecialDiets = ({ currentUser }) => {
   return (
     <View style={styles.container}>
-      <IconPill iconName={"X"} itemName={"vegetarian"} />
-      <IconPill iconName={"X"} itemName={"pescatarian"} />
-      <IconPill iconName={"X"} itemName={"vegan"} />
-      <IconPill iconName={"X"} itemName={"kosher"} />
-      <IconPill iconName={"X"} itemName={"keto"} />
-      <IconPill iconName={"X"} itemName={"diabetes"}  />
-      <IconPill iconName={"+"} itemName={"+ More"} />
+      <IconPill itemName={"vegetarian"} itemType={"diets"} currentUser={currentUser} />
+      <IconPill itemName={"pescatarian"} itemType={"diets"} currentUser={currentUser} />
+      <IconPill itemName={"vegan"} itemType={"diets"} currentUser={currentUser} />
+      <IconPill itemName={"kosher"} itemType={"diets"} currentUser={currentUser} />
+      <IconPill itemName={"low carb"} itemType={"diets"} currentUser={currentUser} />
+      <IconPill itemName={"dairy-free"} itemType={"diets"} currentUser={currentUser} />
+      <IconPill itemName={"+ More"} disabled={true} />
     </View>
   );
 };

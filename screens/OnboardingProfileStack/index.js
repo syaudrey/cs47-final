@@ -10,9 +10,8 @@ import SettingsScreen from "./SettingsScreen";
 
 const Stack = createStackNavigator();
 
-const OnboardingProfileStack = () => {
+const OnboardingProfileStack = ({ currentUser, setCurrentUser }) => {
   const [finishedOnboarding, setFinishedOnboarding] = useState(false);
-  const [firstName, setFirstName] = useState("");
 
   // Onboarding Screens
   if (!finishedOnboarding) {
@@ -27,7 +26,7 @@ const OnboardingProfileStack = () => {
           {(props) => (
             <RegisterScreen
               {...props}
-              setFirstName={setFirstName}
+              setCurrentUser={setCurrentUser}
             />
           )}
         </Stack.Screen>
@@ -54,7 +53,7 @@ const OnboardingProfileStack = () => {
         {(props) => (
           <ProfileScreen
             {...props}
-            firstName={firstName}
+            currentUser={currentUser}
           />
         )}
       </Stack.Screen>

@@ -26,7 +26,6 @@ const QuestionsScreen = () => {
   const [chewy, setChewy] = React.useState(false);
   const [noTexture, setNoTexture] = React.useState(false);
   
-  
 
   return (
     <View style={styles.container}>
@@ -198,7 +197,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     fontWeight: '800',
-    paddingBottom: '2%',
   },
 
   section: {
@@ -214,6 +212,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     paddingHorizontal: '3%',
   },
+  
   option: {
     width: '46%',
     alignItems: 'center',
@@ -225,6 +224,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: '2%',
     paddingBottom: '5%',
+  },
+  text: {
+    fontSize: 20,
+    fontWeight: '800',
+    paddingVertical: '6%',
   },
   optionText: {
     fontSize: 18,
@@ -261,11 +265,6 @@ const styles = StyleSheet.create({
     width: '100%',
   },
 
-  text: {
-    fontSize: 20,
-    fontWeight: '800',
-    paddingVertical: '6%',
-  },
  
   bottom: {
     alignItems: "center",
@@ -282,9 +281,9 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   buttonContainer: {
-    width: '80%',
+    width: '90%',
     marginBottom: '6%',
-    paddingTop: '10%'
+    paddingTop: '10%',
   },
   
 

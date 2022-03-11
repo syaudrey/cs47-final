@@ -5,8 +5,10 @@ import { Button } from 'react-native-elements';
 import { Slider } from '@miblanchard/react-native-slider';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-const ResultsScreen = () => {
+const ResultsScreen = ({ currentUser }) => {
   const navigation = useNavigation();
+  const [restaurant, setRestaurant] = React.useState("");
+  const [dish, setDish] = React.useState("");
   
   return (
     <View style={styles.container}>

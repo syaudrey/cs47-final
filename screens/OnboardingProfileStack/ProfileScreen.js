@@ -1,24 +1,43 @@
 import { StyleSheet, Text, View, Pressable } from "react-native";
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import DietaryRestrictions from "./DietaryRestrictions";
 import SpecialDiets from "./SpecialDiets";
 
-const ProfileScreen = ({ firstName }) => {
+import { db } from "../../firebase";
+import { doc, getDoc } from "firebase/firestore";
+
+const ProfileScreen = ({ currentUser }) => {
   const navigation = useNavigation();
+  const [name, setName] = React.useState("");
 
   useEffect(() => {
     navigation.getParent()?.setOptions({ tabBarStyle: {backgroundColor: "#f8b432", paddingBottom: "4%",},});
   });
+
+  useEffect(() => {
+    navigation.getParent()?.setOptions({ tabBarStyle: {backgroundColor: "#f8b432", paddingBottom: "4%",},});
+    
+    const getUser = async () => {
+      try {
+        const docRef = doc(db, "users", currentUser);
+        const docSnap = await getDoc(docRef);
+        setName(docSnap.data().name.split(" ")[0]);
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    getUser();
+  }, []);
 
   return (
     <View style={styles.container}>
 
       <View style={styles.top}>
         <View style={styles.settings}>
-          <Text style={styles.title}>Hey, {firstName}</Text>
+          <Text style={styles.title}>Hey, {name}</Text>
           <Pressable onPress={() => navigation.navigate('SettingsScreen')}>
             <Ionicons name='settings-outline' size={30} color='black' />
           </Pressable>
@@ -29,12 +48,12 @@ const ProfileScreen = ({ firstName }) => {
 
       <View style={styles.body}>
         <Text style={styles.header}>Dietary Restrictions</Text>
-        <DietaryRestrictions />
+        <DietaryRestrictions currentUser={currentUser} />
       </View>
 
       <View style={styles.body}>
         <Text style={styles.header}>Special Diets</Text>
-        <SpecialDiets />
+        <SpecialDiets currentUser={currentUser} />
       </View>
 
       <View style={styles.bottom}> 
