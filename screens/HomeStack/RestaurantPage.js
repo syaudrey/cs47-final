@@ -9,6 +9,8 @@ import Dish from "./Dish";
 import Modal from "react-native-modal";
 import FilterModal from "./FilterModal";
 import SortModal from "./SortModal";
+import SelectDropdown from 'react-native-select-dropdown'
+
 
 const RestaurantPage = ({ navigation, route }) => {
   const params = route.params
@@ -18,14 +20,16 @@ const RestaurantPage = ({ navigation, route }) => {
   const [dishes, setDishes] = useState([]);
   const [toggle, setToggle] = useState(false);
   const [allDishes, setAllDishes] = useState([]);
+  const [category, setCategory] = useState("");
   
 
-  const getDishesInCat = async (category) => {
+  const getDishesInCat = async ( newCat ) => {
     // let allDocs = await getDocs(collection(db, params.name).collection(db, "menu").collection(db, category));
     // console.log(category)
+    // setCategory("Mains"); // all dishes
     // let allDocs = await getDocs(collection(db, "restaurants").doc(db, "restaurant-1").collection(db, "mains"));
     // let allDocs = await getDocs(doc(db, "restaurants", "restaurant-1").collection(db, "mains"));
-    let allDocs = await getDocs(collection(db, "restaurants", "L&L Hawaiian BBQ", "mains"));
+    let allDocs = await getDocs(collection(db, "restaurants", params.name, newCat));
     // doc(db, "rooms", "roomA", "messages", "message1");
     
     // let allDocs = await getDocs(db.collection("restaurants").document("restaurant-1").collection("mains"));
@@ -41,6 +45,7 @@ const RestaurantPage = ({ navigation, route }) => {
     // console.log(updated);
     setDishes(updated);
     setAllDishes(updated);
+    
     // console.log("all:")
     // console.log(allDishes)
     // console.log("hello");
@@ -56,8 +61,8 @@ const RestaurantPage = ({ navigation, route }) => {
       // setSongData(docSnap.data());
       const updatedRestrictions = [...new Set([...restrictions, ...docSnap.data().restrictions])]
       const updatedDiets = [...new Set([...diets, ...docSnap.data().diets])]
-      console.log(updatedRestrictions)
-      console.log(updatedDiets)
+      // console.log(updatedRestrictions)
+      // console.log(updatedDiets)
       setRestrictions(updatedRestrictions);
       setDiets(updatedDiets);
     } else {
@@ -75,7 +80,7 @@ const RestaurantPage = ({ navigation, route }) => {
   // console.log(chosenRestrictions);
   // console.log(chosenDiets);
   useEffect(() => {
-    getDishesInCat("mains");    // change to All
+    getDishesInCat("Mains");    // change to All
     getPreferences("user");
     // setChosenRestrictions(["why", "sad"]);
   }, []);
@@ -114,10 +119,10 @@ const RestaurantPage = ({ navigation, route }) => {
       combinedRestrictions = [...new Set([...restrictions, ...chosenRestrictions])]
       combinedDiets = [...new Set([...diets, ...chosenDiets])]
     }
-    console.log("yo")
-    console.log(combinedRestrictions)
-    console.log(combinedDiets)
-    console.log("hi")
+    // console.log("yo")
+    // console.log(combinedRestrictions)
+    // console.log(combinedDiets)
+    // console.log("hi")
     // let copy = allDishes
     
     // console.log("set:")
@@ -130,8 +135,8 @@ const RestaurantPage = ({ navigation, route }) => {
     // console.log(updated)
     // setDishes(updated)
     updated = updated.filter(dish => combinedDiets.every(val => dish.diets.includes(val)));
-    console.log("updated dishes:")
-    console.log(updated)
+    // console.log("updated dishes:")
+    // console.log(updated)
     setDishes(updated)
   };
 
@@ -150,11 +155,12 @@ const RestaurantPage = ({ navigation, route }) => {
     }
   };
 
-  let category = "mains";
+  // let category = "mains";
   // getAllDocuments(category);
-  console.log("RESTO PAGE")
-  console.log(chosenRestrictions)
-  console.log(chosenDiets)
+  // console.log("RESTO PAGE")
+  // console.log(chosenRestrictions)
+  // console.log(chosenDiets)
+  const categories = ["All Dishes", "Appetizers", "Mains", "Sides", "Desserts", "Drinks"]
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -194,10 +200,56 @@ const RestaurantPage = ({ navigation, route }) => {
         <View style={styles.menuView}>
           <Text style={styles.sectionText}>MENU</Text>
           <View style={styles.subtitlesView}>
-            <View style={styles.dropdownView}>
+            {/* <View style={styles.dropdownView}>
               <Text style={styles.dishTypeText}>{category.charAt(0).toUpperCase() + category.slice(1)}</Text>
               <Ionicons name="chevron-down-outline" size={22}></Ionicons>
+            </View> */}
+            <View style={styles.dropdownView}>
+              <SelectDropdown
+                data={categories}
+                onSelect={(selectedItem, index) => {
+                  // setCategory(selectedItem);
+                  // console.log(selectedItem, category)
+                }}
+                buttonTextAfterSelection={(selectedItem, index) => {
+                  // text represented after item is selected
+                  // if data array is an array of objects then return selectedItem.property to render after item is selected
+                  setCategory(selectedItem);
+                  console.log("after", selectedItem, category)
+                  
+                  return selectedItem
+                }}
+                rowTextForSelection={(item, index) => {
+                  // text represented for each item in dropdown
+                  // if data array is an array of objects then return item.property to represent item in dropdown
+                  return item
+                }}
+                buttonStyle={{width: "80%", height: "90%", backgroundColor: "white", left: -16}}
+                buttonTextStyle={styles.dishTypeText}
+                defaultButtonText="All Dishes"
+                rowStyle={{height: 28}}
+                rowTextStyle={{textAlign: "left"}}
+                renderDropdownIcon={() => <Ionicons name="chevron-down-outline" size={22}></Ionicons>}
+              />
             </View>
+            {/* <SelectDropdown
+              data={categories}
+              onSelect={(selectedItem, index) => {
+                console.log(selectedItem, index)
+              }}
+              buttonTextAfterSelection={(selectedItem, index) => {
+                // text represented after item is selected
+                // if data array is an array of objects then return selectedItem.property to render after item is selected
+                return selectedItem
+              }}
+              rowTextForSelection={(item, index) => {
+                // text represented for each item in dropdown
+                // if data array is an array of objects then return item.property to represent item in dropdown
+                return item
+              }}
+              buttonStyle={{width: "40%", height: "90%"}}
+              defaultButtonText="All"
+            /> */}
             <View style={styles.filterSortViews}>
               <Text style={styles.filterSortText}>Filter</Text>
               <Pressable onPress={() => {
