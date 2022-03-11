@@ -3,17 +3,40 @@ import React from "react";
 
 import IconPillFilter from "./IconPillFilter";
 
-const SpecialDietsFilter = () => {
-    console.log("hi")
+const SpecialDietsFilter = ({chosenRestrictions, setChosenRestrictions, chosenDiets, setChosenDiets }) => {
+    // console.log("hi")
+    // console.log("in special diets")
+    // console.log(chosenDiets)
   return (
     <View style={styles.container}>
-      <IconPillFilter iconName={"X"} itemName={"vegetarian"} type={"diet"} />
-      <IconPillFilter iconName={"X"} itemName={"pescatarian"} type={"diet"} />
-      <IconPillFilter iconName={"X"} itemName={"vegan"} type={"diet"} />
-      <IconPillFilter iconName={"X"} itemName={"kosher"} type={"diet"} />
-      <IconPillFilter iconName={"X"} itemName={"keto"} type={"diet"} />
-      <IconPillFilter iconName={"X"} itemName={"diabetes"}  type={"diet"} />
-      <IconPillFilter iconName={"+"} itemName={"+ More"} type={"diet"} />
+      <IconPillFilter iconName={"X"} itemName={"vegetarian"} type={"diet"} chosenRestrictions={chosenRestrictions}
+                              setChosenRestrictions={setChosenRestrictions} 
+                              chosenDiets={chosenDiets}
+                              setChosenDiets={setChosenDiets} />
+      <IconPillFilter iconName={"X"} itemName={"pescatarian"} type={"diet"} chosenRestrictions={chosenRestrictions}
+                              setChosenRestrictions={setChosenRestrictions} 
+                              chosenDiets={chosenDiets}
+                              setChosenDiets={setChosenDiets} />
+      <IconPillFilter iconName={"X"} itemName={"vegan"} type={"diet"} chosenRestrictions={chosenRestrictions}
+                              setChosenRestrictions={setChosenRestrictions} 
+                              chosenDiets={chosenDiets}
+                              setChosenDiets={setChosenDiets} />
+      <IconPillFilter iconName={"X"} itemName={"kosher"} type={"diet"} chosenRestrictions={chosenRestrictions}
+                              setChosenRestrictions={setChosenRestrictions} 
+                              chosenDiets={chosenDiets}
+                              setChosenDiets={setChosenDiets} />
+      <IconPillFilter iconName={"X"} itemName={"keto"} type={"diet"} chosenRestrictions={chosenRestrictions}
+                              setChosenRestrictions={setChosenRestrictions} 
+                              chosenDiets={chosenDiets}
+                              setChosenDiets={setChosenDiets} />
+      <IconPillFilter iconName={"X"} itemName={"diabetes"}  type={"diet"} chosenRestrictions={chosenRestrictions}
+                              setChosenRestrictions={setChosenRestrictions} 
+                              chosenDiets={chosenDiets}
+                              setChosenDiets={setChosenDiets} />
+      <IconPillFilter iconName={"+"} itemName={"+ More"} type={"diet"} chosenRestrictions={chosenRestrictions}
+                              setChosenRestrictions={setChosenRestrictions} 
+                              chosenDiets={chosenDiets}
+                              setChosenDiets={setChosenDiets} />
     </View>
   );
 };

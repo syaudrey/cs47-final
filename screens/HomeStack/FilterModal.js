@@ -7,7 +7,7 @@ import SpecialDietsFilter from "./SpecialDietsFilter";
 
 
 
-const FilterModal = ({isEnabled, setIsEnabled}) => {
+const FilterModal = ({isEnabled, setIsEnabled, chosenRestrictions, setChosenRestrictions, chosenDiets, setChosenDiets}) => {
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -21,6 +21,7 @@ const FilterModal = ({isEnabled, setIsEnabled}) => {
 
   };
   // console.log("hellooolol")
+  // console.log(chosenRestrictions)
   return (
     <View style={styles.container}>
 
@@ -37,12 +38,18 @@ const FilterModal = ({isEnabled, setIsEnabled}) => {
         
         <View style={styles.body}>
             <Text style={styles.header}>Dietary Restrictions</Text>
-            <DietaryRestrictionsFilter />
+            <DietaryRestrictionsFilter chosenRestrictions={chosenRestrictions}
+                              setChosenRestrictions={setChosenRestrictions} 
+                              chosenDiets={chosenDiets}
+                              setChosenDiets={setChosenDiets} />
         </View>
 
         <View style={styles.body}>
             <Text style={styles.header}>Special Diets</Text>
-            <SpecialDietsFilter />
+            <SpecialDietsFilter chosenRestrictions={chosenRestrictions}
+                              setChosenRestrictions={setChosenRestrictions} 
+                              chosenDiets={chosenDiets}
+                              setChosenDiets={setChosenDiets} />
         </View>
 
         <View style={styles.bottom}>

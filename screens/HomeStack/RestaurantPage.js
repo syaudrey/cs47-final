@@ -17,10 +17,8 @@ const RestaurantPage = ({ navigation, route }) => {
   })
   const [dishes, setDishes] = useState([]);
   const [toggle, setToggle] = useState(false);
-  const [restrictions, setRestrictions] = useState([]);
-  const [diets, setDiets] = useState([]);
-  const [chosenRestrictions, setChosenRestrictions] = useState([]);
-  const [chosenDiets, setChosenDiets] = useState([]);
+  const [allDishes, setAllDishes] = useState([]);
+  
 
   const getDishesInCat = async (category) => {
     // let allDocs = await getDocs(collection(db, params.name).collection(db, "menu").collection(db, category));
@@ -42,6 +40,9 @@ const RestaurantPage = ({ navigation, route }) => {
     // console.log("updated: ")
     // console.log(updated);
     setDishes(updated);
+    setAllDishes(updated);
+    // console.log("all:")
+    // console.log(allDishes)
     // console.log("hello");
   };
 
@@ -65,9 +66,18 @@ const RestaurantPage = ({ navigation, route }) => {
     }
   };
 
+  const [restrictions, setRestrictions] = useState([]);
+  const [diets, setDiets] = useState([]);
+  const [chosenRestrictions, setChosenRestrictions] = useState([]);
+  const [chosenDiets, setChosenDiets] = useState([]);
+
+  // console.log("original............");
+  // console.log(chosenRestrictions);
+  // console.log(chosenDiets);
   useEffect(() => {
     getDishesInCat("mains");    // change to All
     getPreferences("user");
+    // setChosenRestrictions(["why", "sad"]);
   }, []);
 
   const renderDishes = ({item, navigation}) => {
@@ -98,29 +108,37 @@ const RestaurantPage = ({ navigation, route }) => {
 
   const applyFilters = () => {
     setModalVisible(!isModalVisible);
-    let combinedRestrictions = restrictions
-    let combinedDiets = diets
-    if (toggle) {
+    let combinedRestrictions = chosenRestrictions
+    let combinedDiets = chosenDiets
+    if (toggle == true) {
       combinedRestrictions = [...new Set([...restrictions, ...chosenRestrictions])]
       combinedDiets = [...new Set([...diets, ...chosenDiets])]
     }
     console.log("yo")
     console.log(combinedRestrictions)
+    console.log(combinedDiets)
     console.log("hi")
-    const updated = dishes.filter(dish => !combinedRestrictions.some(r => dish.restrictions.includes(r)));
+    // let copy = allDishes
+    
+    // console.log("set:")
+    // console.log(copy)
+    // setDishes(copy)
+    // console.log("dishes:")
+    // console.log(dishes)
+    let updated = allDishes.filter(dish => !combinedRestrictions.some(r => dish.restrictions.includes(r)));
     // const updated = dishes.filter(checkRestrictions);
+    // console.log(updated)
+    // setDishes(updated)
+    updated = updated.filter(dish => combinedDiets.every(val => dish.diets.includes(val)));
+    console.log("updated dishes:")
     console.log(updated)
     setDishes(updated)
-
-
-    // setDishes(updated.filter(dish => combinedDiets.every(val => dish.diets.includes(val))));
-  
   };
 
   const applySort = () => {
     setModalVisible(!isModalVisible);
     if (sortBy === "Popularity") {
-      console.log("try change")
+      // console.log("try change")
       // setDishes(dishes.sort((a, b) => (a.popularity > b.popularity ? 1 : -1)))
       dishes.sort((a, b) => (a.popularity < b.popularity ? 1 : -1))   
     } else if (sortBy === "Wait time") {
@@ -134,7 +152,9 @@ const RestaurantPage = ({ navigation, route }) => {
 
   let category = "mains";
   // getAllDocuments(category);
+  console.log("RESTO PAGE")
   console.log(chosenRestrictions)
+  console.log(chosenDiets)
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>

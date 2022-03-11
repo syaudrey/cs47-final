@@ -11,30 +11,46 @@ import FontAwesome, {
 const IconPillFilter = ({ itemName, iconName, chosenRestrictions, setChosenRestrictions, chosenDiets, setChosenDiets, type }) => {
   const [pressed, setPressed] = React.useState(false);
   const parsedIcon = parseIconFromClassName('fa-solid fa-leaf');
+  // console.log("in icon pill")
+  // console.log(chosenRestrictions)
 
   const handlePress = () => {
-    console.log("before:")
-    console.log(chosenRestrictions)
-    console.log(chosenDiets)
+    // console.log("before:")
+    // console.log(chosenRestrictions)
+    // console.log(chosenDiets)
     if (!pressed) {
       if (type == "restriction" && !chosenRestrictions.includes(itemName) && itemName != "+ More") {
-        setChosenRestrictions(chosenRestrictions.push(itemName))
+        // setChosenRestrictions(chosenRestrictions.push(itemName))
+        let updated = [...[itemName], ...chosenRestrictions]
+        console.log(updated)
+        setChosenRestrictions(updated)
       } else if (type == "diet" && !chosenDiets.includes(itemName) && itemName != "+ More") {
-        setChosenDiets(chosenDiets.push(itemName))
+        let updated = [...[itemName], ...chosenDiets]
+        // console.log("diet:")
+        console.log(updated)
+        setChosenDiets(updated)
       }
     } else {
+      console.log("remove!!!!!!!!!!!!!!!!!!!")
       if (type == "restriction" && chosenRestrictions.includes(itemName) && itemName != "+ More") {
-        setChosenRestrictions(chosenRestrictions.splice(chosenRestrictions.indexOf(itemName), 1))
+        chosenRestrictions.splice(chosenRestrictions.indexOf(itemName), 1)
+        console.log(chosenRestrictions)
+        setChosenRestrictions(chosenRestrictions)
       } else if (type == "diet" && chosenDiets.includes(itemName) && itemName != "+ More") {
-        setChosenDiets(chosenDiets.splice(chosenDiets.indexOf(itemName), 1))
+        chosenDiets.splice(chosenDiets.indexOf(itemName), 1)
+        console.log(chosenDiets)
+        setChosenDiets(chosenDiets)
       }
     }
     setPressed(!pressed)
-    console.log("after:")
-    console.log(chosenRestrictions)
-    console.log(chosenDiets)
+    // console.log("after:")
+    // console.log(chosenRestrictions)
+    // console.log(chosenDiets)
   }
 
+  // console.log("outside:")
+  // console.log(chosenRestrictions)
+  // console.log(chosenDiets)
   return (
     <View style={styles.container}>
       <Button 
@@ -79,7 +95,7 @@ const styles = StyleSheet.create({
     padding: '2%',
   },
   buttonContainer: {
-    padding: '5%',
+    padding: '4%',
   },
 
 });
