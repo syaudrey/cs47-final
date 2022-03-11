@@ -3,18 +3,18 @@ import React from "react";
 
 import IconPill from "./IconPill";
 
-const DietaryRestrictions = () => {
+const DietaryRestrictions = ({ currentUser }) => {
   return (
     <View style={styles.container}>
-      <IconPill iconName={"X"} itemName={"milk"} />
-      <IconPill iconName={"X"} itemName={"fish"}  />
-      <IconPill iconName={"X"} itemName={"shellfish"} />
-      <IconPill iconName={"X"} itemName={"eggs"} />
-      <IconPill iconName={"X"} itemName={"peanuts"} />
-      <IconPill iconName={"X"} itemName={"tree nuts"} />
-      <IconPill iconName={"X"} itemName={"soy"} />
-      <IconPill iconName={"X"} itemName={"wheat"} />
-      <IconPill iconName={"+"} itemName={"+ More"} />
+      <IconPill itemName={"milk"} itemType={"restrictions"} currentUser={currentUser} />
+      <IconPill itemName={"eggs"} itemType={"restrictions"} currentUser={currentUser} />
+      <IconPill itemName={"lactose"} itemType={"restrictions"} currentUser={currentUser} />
+      <IconPill itemName={"fish"} itemType={"restrictions"} currentUser={currentUser} />
+      <IconPill itemName={"shellfish"} itemType={"restrictions"} currentUser={currentUser} />
+      <IconPill itemName={"peanuts"} itemType={"restrictions"} currentUser={currentUser} />
+      <IconPill itemName={"soy"} itemType={"restrictions"} currentUser={currentUser} />  
+      <IconPill itemName={"gluten"} itemType={"restrictions"} currentUser={currentUser} />
+      <IconPill itemName={"+ More"} disabled={true} />
     </View>
   );
 };

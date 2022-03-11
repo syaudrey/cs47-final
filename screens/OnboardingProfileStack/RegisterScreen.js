@@ -4,11 +4,24 @@ import { useNavigation } from '@react-navigation/native';
 import { Button } from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-const RegisterScreen = ({ setFirstName }) => {
+import { db } from "../../firebase";
+import { doc, setDoc } from "firebase/firestore";
+
+const RegisterScreen = ({ setCurrentUser }) => {
   const navigation = useNavigation();
   const [name, setName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+
+  const addUser = async () => {
+    setCurrentUser(email);
+    await setDoc(doc(db, "users", email), {
+      name: name,
+      email: email,
+      diets: [],
+      restrictions: [],
+    });
+  };
 
   return (
     <View style={styles.container}>
@@ -30,7 +43,7 @@ const RegisterScreen = ({ setFirstName }) => {
           <Text style={styles.fieldTitle}>Full name</Text>
           <TextInput
             style={styles.input}
-            onChangeText={(newName) => {setName(newName); setFirstName(newName.split(' ')[0])}}
+            onChangeText={(newName) => {setName(newName)}}
             value={name}
             placeholder="Enter your name"
           />
@@ -63,7 +76,7 @@ const RegisterScreen = ({ setFirstName }) => {
           buttonStyle={styles.button} 
           titleStyle={styles.buttonTitle} 
           containerStyle={styles.buttonContainer} 
-          onPress={() => navigation.navigate('LocationScreen')}
+          onPress={() => {((email != "") ? addUser() : null); navigation.navigate('LocationScreen')}}
         />
       </View>
     </View>

@@ -5,13 +5,19 @@ import { Button } from 'react-native-elements';
 import { Slider } from '@miblanchard/react-native-slider';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-const PreferencesScreen = () => {
+import { db } from "../../firebase";
+import { doc, getDoc, onSnapshot } from "firebase/firestore";
+
+const PreferencesScreen = ({ currentUser }) => {
   const navigation = useNavigation();
   const [distance, setDistance] = React.useState(5);
   const [prices, setPrices] = React.useState([5, 25]);
 
-  const [restrictions, setRestrictions] = useState(false);
-  const [diets, setDiets] = useState(false);
+  const [showRestrictions, setShowRestrictions] = useState(false);
+  const [showDiets, setShowDiets] = useState(false);
+
+  const [restrictions, setRestrictions] = useState("none");
+  const [diets, setDiets] = useState("none");
 
   const renderDistanceMark = (index) => {
     const markDistance = (index + 1) * 5
@@ -39,6 +45,23 @@ const PreferencesScreen = () => {
       </View>
     );
   };
+
+  useEffect(() => {
+    const unsub = onSnapshot(doc(db, "users", currentUser), (doc) => {
+      const restrictionsList = doc.data().restrictions
+      if (restrictionsList.length !== 0) {
+        setRestrictions(restrictionsList.join(", "));
+      } else {
+        setRestrictions("none");
+      }
+      const dietsList = doc.data().diets;
+      if (dietsList.length !== 0) {
+        setDiets(dietsList.join(", "));
+      } else {
+        setDiets("none");
+      }
+    });
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -101,28 +124,28 @@ const PreferencesScreen = () => {
             <Text style={styles.text}>Dietary Restrictions</Text>
             <Switch
               trackColor={{ false: 'grey', true: "#f8b432" }}
-              thumbColor={restrictions ? 'white' : 'darkgrey'}
-              value={restrictions}
-              onValueChange={() => setRestrictions(!restrictions)}
+              thumbColor={showRestrictions ? 'white' : 'darkgrey'}
+              value={showRestrictions}
+              onValueChange={() => setShowRestrictions(!showRestrictions)}
               style={{ transform: [{ scaleX: .8 }, { scaleY: .8 }] }}
             />
           </View>
-          { restrictions ?
-            <Text style={styles.subText}>eggs, milk, fish</Text>
+          { showRestrictions ?
+            <Text style={styles.subText}>{restrictions}</Text>
             : null
           }
           <View style={styles.row}>
             <Text style={styles.text}>Special Diets</Text>
             <Switch
               trackColor={{ false: 'grey', true: "#f8b432" }}
-              thumbColor={diets ? 'white' : 'darkgrey'}
-              value={diets}
-              onValueChange={() => setDiets(!diets)}
+              thumbColor={showDiets ? 'white' : 'darkgrey'}
+              value={showDiets}
+              onValueChange={() => setShowDiets(!showDiets)}
               style={{ transform: [{ scaleX: .8 }, { scaleY: .8 }] }}
             />
           </View>
-          { diets ?
-            <Text style={styles.subText}>vegetarian</Text>
+          { showDiets ?
+            <Text style={styles.subText}>{diets}</Text>
             : null
           }
           <Pressable onPress={() => {navigation.navigate("OnboardingProfileStack")}}>
