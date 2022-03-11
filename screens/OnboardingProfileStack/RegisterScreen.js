@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, Pressable, TextInput } from "react-native";
+import { StyleSheet, Text, View, Image, Pressable, TextInput, Alert } from "react-native";
 import React, { useState, useEffect } from "react";
 import { useNavigation } from '@react-navigation/native';
 import { Button } from 'react-native-elements';
@@ -12,6 +12,7 @@ const RegisterScreen = ({ setCurrentUser }) => {
   const [name, setName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [alert, setAlert] = React.useState(false);
 
   const addUser = async () => {
     setCurrentUser(email);
@@ -70,13 +71,25 @@ const RegisterScreen = ({ setCurrentUser }) => {
         </View>
       </View>
 
+      <View style={styles.alertContainer}>
+        {alert ? <Text style={styles.alert}>Please fill in all fields!</Text> : null}
+      </View>
       <View style={styles.CTA}>
         <Button 
           title="Sign Up!" 
           buttonStyle={styles.button} 
           titleStyle={styles.buttonTitle} 
           containerStyle={styles.buttonContainer} 
-          onPress={() => {((email != "") ? addUser() : null); navigation.navigate('LocationScreen')}}
+          onPress={() => {
+            if (email == "") {
+              setAlert(true);
+            } else if (name == "") {
+              setAlert(true);
+            } else {
+              addUser();
+              navigation.navigate('LocationScreen');
+            } 
+          }}
         />
       </View>
     </View>
@@ -152,6 +165,18 @@ const styles = StyleSheet.create({
     height: '10%', 
     alignItems: "center",
     justifyContent: "center",
+  },
+  alertContainer: {
+    height: '3%', 
+    alignItems: "flex-start",
+    justifyContent: "center",
+    paddingHorizontal: '6%',
+  },
+  alert: {
+    fontSize: 16,
+    fontWeight: '500', 
+    fontStyle: 'italic',
+    color: 'red'
   },
   button: {
     backgroundColor: '#f8b432',

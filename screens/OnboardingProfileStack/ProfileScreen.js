@@ -17,18 +17,18 @@ const ProfileScreen = ({ currentUser }) => {
     navigation.getParent()?.setOptions({ tabBarStyle: {backgroundColor: "#f8b432", paddingBottom: "4%",},});
   });
 
+  const getUser = async () => {
+    try {
+      const docRef = doc(db, "users", currentUser);
+      const docSnap = await getDoc(docRef);
+      setName(docSnap.data().name.split(" ")[0]);
+    } catch (err) {
+      console.log(err)
+    }
+  };
+
   useEffect(() => {
     navigation.getParent()?.setOptions({ tabBarStyle: {backgroundColor: "#f8b432", paddingBottom: "4%",},});
-    
-    const getUser = async () => {
-      try {
-        const docRef = doc(db, "users", currentUser);
-        const docSnap = await getDoc(docRef);
-        setName(docSnap.data().name.split(" ")[0]);
-      } catch (err) {
-        console.log(err)
-      }
-    }
     getUser();
   }, []);
 
