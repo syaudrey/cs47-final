@@ -5,8 +5,14 @@ import { useNavigation } from '@react-navigation/native';
 import RadioButtonRN from 'radio-buttons-react-native';
 
 
-const SortModal = ({changeSortBy}) => {
+const SortModal = ({changeSortBy, sortBy}) => {
   const navigation = useNavigation();
+
+  // useEffect(() => {
+  //   if (sortBy == "Popularity") {
+
+  //   } 
+  // }, []);
 
   useEffect(() => {
     navigation.getParent()?.setOptions({ tabBarStyle: {backgroundColor: "#f8b432", paddingBottom: "4%",},});
@@ -20,9 +26,11 @@ const SortModal = ({changeSortBy}) => {
     {label: 'Price: high to low'}
     ];
 
+  // console.log(sortBy)
   return (
     <View style={styles.container}>
         <RadioButtonRN
+            // initial={ sortBy == "Popularity" ? 1 : 4}
             data={data}
             activeColor={'#f8b432'}
             deactiveColor={'gray'}
@@ -32,6 +40,7 @@ const SortModal = ({changeSortBy}) => {
             // boxActiveBgColor={'#F1EBEA'}
             // boxDeactiveBgColor={'#F1EBEA'}
             selectedBtn={(e) => changeSortBy(e.label)}
+            initial={ sortBy == "Popularity" ? 1 : sortBy == "Wait time" ? 2 : sortBy == "Price: low to high" ? 3 : sortBy == "Price: high to low" ? 4 : -1}
         />
         {/* <RadioForm
             radio_props={radio_props}

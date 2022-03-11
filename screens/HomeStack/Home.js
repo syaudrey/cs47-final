@@ -92,7 +92,11 @@ const Home = () => {
         distance={item.distance}
         category={item.category}
         yelp={item.yelp}
-        walkthrough={item.walkthrough} />
+        walkthrough={item.walkthrough}
+        operatingDays={item.operatingDays}
+        operatingHours={item.operatingHours}
+        address={item.address}
+        phone={item.phone} />
         // navigation={navigation}/>
     );
   }

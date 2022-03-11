@@ -9,9 +9,11 @@ import RecommendationStack from "./screens/RecommendationStack";
 import OnboardingProfileStack from "./screens/OnboardingProfileStack";
 
 import { useNavigation, getFocusedRouteNameFromRoute } from '@react-navigation/native';
+import { LogBox } from 'react-native';
 
 
 const Tab = createBottomTabNavigator();
+LogBox.ignoreAllLogs()
 
 export default function App() {
   const [currentUser, setCurrentUser] = useState("");

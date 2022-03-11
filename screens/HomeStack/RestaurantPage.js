@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, SafeAreaView, Image, FlatList, Button, Pressable, Dimensions } from "react-native";
+import { StyleSheet, Text, View, SafeAreaView, Image, FlatList, Button, Pressable, Dimensions, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
 
 import InstaStory from "../../react-native-insta-story/index";
@@ -20,8 +20,16 @@ const RestaurantPage = ({ navigation, route }) => {
   const [dishes, setDishes] = useState([]);
   const [toggle, setToggle] = useState(false);
   const [allDishes, setAllDishes] = useState([]);
-  const [category, setCategory] = useState("");
-  
+  const [category, setCategory] = useState("Mains");
+  const [restrictions, setRestrictions] = useState([]);
+  const [diets, setDiets] = useState([]);
+  const [chosenRestrictions, setChosenRestrictions] = useState([]);
+  const [chosenDiets, setChosenDiets] = useState([]);
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [actionTriggered, setActionTriggered] = useState('');
+  const [sortBy, setSortBy] = useState('');
+
+  // console.log("hi", params.operatingDays)
 
   const getDishesInCat = async ( newCat ) => {
     // let allDocs = await getDocs(collection(db, params.name).collection(db, "menu").collection(db, category));
@@ -71,19 +79,20 @@ const RestaurantPage = ({ navigation, route }) => {
     }
   };
 
-  const [restrictions, setRestrictions] = useState([]);
-  const [diets, setDiets] = useState([]);
-  const [chosenRestrictions, setChosenRestrictions] = useState([]);
-  const [chosenDiets, setChosenDiets] = useState([]);
+  
 
   // console.log("original............");
   // console.log(chosenRestrictions);
   // console.log(chosenDiets);
   useEffect(() => {
-    getDishesInCat("Mains");    // change to All
+    // getDishesInCat("Mains");    // change to All
     getPreferences("user");
     // setChosenRestrictions(["why", "sad"]);
   }, []);
+
+  useEffect(() => {
+    getDishesInCat(category);
+  }, [category]);
 
   const renderDishes = ({item, navigation}) => {
     // console.log("dishes: ")
@@ -97,9 +106,7 @@ const RestaurantPage = ({ navigation, route }) => {
     );
   }
 
-  const [isModalVisible, setModalVisible] = useState(false);
-  const [actionTriggered, setActionTriggered] = useState('');
-  const [sortBy, setSortBy] = useState('');
+  
   
 
   // useEffect(() => {
@@ -160,6 +167,7 @@ const RestaurantPage = ({ navigation, route }) => {
   // console.log("RESTO PAGE")
   // console.log(chosenRestrictions)
   // console.log(chosenDiets)
+  // console.log("yoyo", params.operatingDays)
   const categories = ["All Dishes", "Appetizers", "Mains", "Sides", "Desserts", "Drinks"]
   return (
     <SafeAreaView style={styles.container}>
@@ -175,17 +183,17 @@ const RestaurantPage = ({ navigation, route }) => {
         </View>
       </View>
 
-      <View style={styles.containerMiddle}>
+      <ScrollView contentContainerStyle={styles.containerMiddle}>
         <View style={styles.walkthroughView}>
-          <View style={styles.restaurantInfoView}>
+          <Pressable style={styles.restaurantInfoView} onPress={() => navigation.navigate('MoreInfo', {name: params.name, category: params.category, distance: params.distance, yelp: params.yelp, walkthrough: params.walkthrough, operatingDays: params.operatingDays, operatingHours: params.operatingHours, address: params.address, phone: params.phone })}>
             <Text style={styles.restaurantInfoText}>MORE INFORMATION</Text>
-          </View>
+          </Pressable>
           <View style={styles.walkthroughTitleView}>
             <Text style={styles.sectionText}>WALKTHROUGH</Text>
-            <View style={styles.galleryView}>
+            <Pressable style={styles.galleryView}  onPress={() => navigation.navigate('Gallery', {name: params.name, walkthrough: params.walkthrough })}>
               <Ionicons name="grid-outline" size={18} style={styles.galleryIcon}></Ionicons>
               <Text style={styles.galleryText}>GALLERY</Text>
-            </View>
+            </Pressable>
           </View>
           <View style={styles.walkthroughFlatlistView}>
             <InstaStory data={params.walkthrough}
@@ -214,8 +222,11 @@ const RestaurantPage = ({ navigation, route }) => {
                 buttonTextAfterSelection={(selectedItem, index) => {
                   // text represented after item is selected
                   // if data array is an array of objects then return selectedItem.property to render after item is selected
+                  // useEffect(() => {
+                  //   setCategory(selectedItem);
+                  // }, []);
                   setCategory(selectedItem);
-                  console.log("after", selectedItem, category)
+                  // console.log("after", selectedItem, category)
                   
                   return selectedItem
                 }}
@@ -298,7 +309,7 @@ const RestaurantPage = ({ navigation, route }) => {
                   <View style={styles.filterSortHeaderView}>
                     <Text style={styles.filterSortHeaderText}>Sort By</Text>
                   </View>
-                  <SortModal changeSortBy={setSortBy} />
+                  <SortModal changeSortBy={setSortBy} sortBy={sortBy} />
                   <Pressable onPress={applySort}>
                     <View style={styles.button}>
                       <Text style={styles.buttonTitle}>APPLY SORT</Text>
@@ -316,15 +327,15 @@ const RestaurantPage = ({ navigation, route }) => {
             keyExtractor={(item) => item.name} 
             numColumns={2} /> */}
         </View>
-      </View>
-      <View style={styles.menuflatlistView}>
-        {/* <Text>yo</Text> */}
-        <FlatList 
+        <View style={styles.menuflatlistView}>
+          <FlatList 
               data={dishes}
               renderItem={({item}) => renderDishes({item})}
               keyExtractor={(item) => item.name} 
               numColumns={2} />
-      </View>
+        </View>
+      </ScrollView>
+      
     </SafeAreaView>
   );
 };
@@ -341,24 +352,27 @@ const styles = StyleSheet.create({
     // paddingHorizontal: "5%",
   },
   containerMiddle: {
+    // flex: 1,
     justifyContent: "center",
     alignItems: "center",
     // backgroundColor: "yellow",
-    flex: 9,
-    width: "100%",
+    // flex: 18,
+    // width: "100%",
     paddingHorizontal: "5%",
     paddingBottom: "3%",
   },
   menuflatlistView: {
-    flex: 10,
+    flex: 1,
     width: "100%",
-    paddingLeft: "5%",
+    marginTop: "4%",
+    // paddingLeft: "5%",
     // height: "100%",
     // backgroundColor: "green",
   },
   walkthroughFlatlistView: {
     flex: 10,
     width: "100%",
+    marginBottom: "5%",
     // paddingLeft: "5%",
     // height: "100%",
     // backgroundColor: "green",
@@ -377,7 +391,8 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: '#f8b432',
-    flex: 1,
+    // flex: 1,
+    height: "8%",
     borderBottomLeftRadius: 30,
     borderBottomRightRadius: 30,
     width: "100%",
@@ -445,8 +460,10 @@ const styles = StyleSheet.create({
     // flex: 4,
   },
   restaurantInfoView: {
-    flex: 3,
+    // flex: 6,
+    height: "18%",
     backgroundColor: "#F1EBEA",
+    // backgroundColor: "yellow",
     justifyContent: "center",
     width: "100%",
     borderRadius: 10,

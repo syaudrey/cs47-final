@@ -4,12 +4,13 @@ import { StyleSheet, Text, View, SafeAreaView, Pressable, Image, Dimensions, Pla
 import { Ionicons } from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/native';
 
-export default function Restaurant({ imageUrl, name, distance, category, yelp, walkthrough }) {
+export default function Restaurant({ imageUrl, name, distance, category, yelp, walkthrough, operatingDays, operatingHours, address, phone }) {
     const navigation = useNavigation();
     // console.log("in restaurant")
+    // console.log(operatingDays)
     return (
         // Pressable onPress={() => navigation.navigate('PreviewScreen', {previewUrl: previewUrl})}
-        <Pressable onPress={() => navigation.navigate('RestaurantPage', {name: name, category: category, distance: distance, yelp: yelp, walkthrough: walkthrough })} style={styles.item}>
+        <Pressable onPress={() => navigation.navigate('RestaurantPage', {name: name, category: category, distance: distance, yelp: yelp, walkthrough: walkthrough, operatingDays: operatingDays, operatingHours: operatingHours, address: address, phone: phone })} style={styles.item}>
             <View style={styles.imageView}>
                 <Image style={styles.image} source={{uri: imageUrl}}/>
             </View>
