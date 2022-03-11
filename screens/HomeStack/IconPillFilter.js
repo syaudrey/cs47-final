@@ -13,6 +13,17 @@ const IconPillFilter = ({ itemName, iconName, chosenRestrictions, setChosenRestr
   const parsedIcon = parseIconFromClassName('fa-solid fa-leaf');
   // console.log("in icon pill")
   // console.log(chosenRestrictions)
+  useEffect (() => {
+    if (type == "diet") {
+      if (chosenDiets.includes(itemName)) {
+        setPressed(true);
+      } 
+    } else if (type == "restriction") {
+      if (chosenRestrictions.includes(itemName)) {
+        setPressed(true);
+      } 
+    }
+  }, []); 
 
   const handlePress = () => {
     // console.log("before:")
@@ -22,23 +33,23 @@ const IconPillFilter = ({ itemName, iconName, chosenRestrictions, setChosenRestr
       if (type == "restriction" && !chosenRestrictions.includes(itemName) && itemName != "+ More") {
         // setChosenRestrictions(chosenRestrictions.push(itemName))
         let updated = [...[itemName], ...chosenRestrictions]
-        console.log(updated)
+        // console.log(updated)
         setChosenRestrictions(updated)
       } else if (type == "diet" && !chosenDiets.includes(itemName) && itemName != "+ More") {
         let updated = [...[itemName], ...chosenDiets]
         // console.log("diet:")
-        console.log(updated)
+        // console.log(updated)
         setChosenDiets(updated)
       }
     } else {
-      console.log("remove!!!!!!!!!!!!!!!!!!!")
+      // console.log("remove!!!!!!!!!!!!!!!!!!!")
       if (type == "restriction" && chosenRestrictions.includes(itemName) && itemName != "+ More") {
         chosenRestrictions.splice(chosenRestrictions.indexOf(itemName), 1)
-        console.log(chosenRestrictions)
+        // console.log(chosenRestrictions)
         setChosenRestrictions(chosenRestrictions)
       } else if (type == "diet" && chosenDiets.includes(itemName) && itemName != "+ More") {
         chosenDiets.splice(chosenDiets.indexOf(itemName), 1)
-        console.log(chosenDiets)
+        // console.log(chosenDiets)
         setChosenDiets(chosenDiets)
       }
     }
@@ -55,8 +66,18 @@ const IconPillFilter = ({ itemName, iconName, chosenRestrictions, setChosenRestr
     <View style={styles.container}>
       <Button 
         title={itemName}
-        buttonStyle={pressed ? styles.buttonPressed : styles.button} 
-        titleStyle={pressed ? styles.textPressed : styles.text} 
+        // buttonStyle={pressed ? styles.buttonPressed : styles.button} 
+        buttonStyle={
+          type == "diet" ? chosenDiets.includes(itemName) ? styles.buttonPressed : styles.button : 
+          type == "restriction" ? chosenRestrictions.includes(itemName) ? styles.buttonPressed : styles.button :
+          null
+        } 
+        // titleStyle={pressed ? styles.textPressed : styles.text} 
+        titleStyle={
+          type == "diet" ? chosenDiets.includes(itemName) ? styles.textPressed : styles.text : 
+          type == "restriction" ? chosenRestrictions.includes(itemName) ? styles.textPressed : styles.text :
+          null
+        } 
         containerStyle={styles.buttonContainer} 
         onPress={handlePress}
       />
