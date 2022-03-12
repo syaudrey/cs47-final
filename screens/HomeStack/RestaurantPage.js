@@ -38,9 +38,7 @@ const RestaurantPage = ({ navigation, route, currentUser }) => {
       return document.data();
     }))
     setDishes(updated);
-    if (newCat == "All Dishes") {
-      setAllDishes(updated);
-    }
+    setAllDishes(updated);
   };
 
   const renderDishes = ({item, navigation}) => {
