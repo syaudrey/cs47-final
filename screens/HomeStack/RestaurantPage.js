@@ -38,7 +38,9 @@ const RestaurantPage = ({ navigation, route, currentUser }) => {
       return document.data();
     }))
     setDishes(updated);
-    setAllDishes(updated);
+    if (newCat == "All Dishes") {
+      setAllDishes(updated);
+    }
   };
 
   const renderDishes = ({item, navigation}) => {
@@ -200,10 +202,8 @@ const RestaurantPage = ({ navigation, route, currentUser }) => {
                     chosenDiets={chosenDiets}
                     setChosenDiets={setChosenDiets} 
                   />
-                  <Pressable onPress={applyFilters}>
-                    <View style={styles.button}>
+                  <Pressable style={styles.button} onPress={applyFilters}>
                       <Text style={styles.buttonTitle}>APPLY FILTERS</Text>
-                    </View>
                   </Pressable>
                 </View> :
 
@@ -216,10 +216,8 @@ const RestaurantPage = ({ navigation, route, currentUser }) => {
                     <Text style={styles.modalHeaderText}>Sort By</Text>
                   </View>
                   <SortModal changeSortBy={setSortBy} sortBy={sortBy} />
-                  <Pressable onPress={() => {applySort(); setModalVisible(false);}}>
-                    <View style={styles.button}>
+                  <Pressable style={styles.button} onPress={() => {applySort(); setModalVisible(false);}}>
                       <Text style={styles.buttonTitle}>APPLY SORT</Text>
-                    </View>
                   </Pressable>
               </View> :
               null}</>
