@@ -167,7 +167,13 @@ const QuestionsScreen = () => {
             buttonStyle={styles.button} 
             titleStyle={styles.buttonTitle} 
             containerStyle={styles.buttonContainer} 
-            onPress={() => {navigation.navigate("ResultsScreen")}}
+            onPress={() => {navigation.navigate("ResultsScreen", {
+              american: american,
+              japanese: japanese,
+              italian: italian,
+              chinese: chinese,
+              noCuisine: noCuisine
+            })}}
           />
         </View>
 
