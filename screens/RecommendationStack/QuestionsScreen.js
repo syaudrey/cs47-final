@@ -25,8 +25,8 @@ const QuestionsScreen = () => {
   const [creamy, setCreamy] = React.useState(false);
   const [chewy, setChewy] = React.useState(false);
   const [noTexture, setNoTexture] = React.useState(false);
-  
 
+  
   return (
     <View style={styles.container}>
       <ScrollView style={styles.scroll}>

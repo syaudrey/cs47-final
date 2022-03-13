@@ -5,6 +5,10 @@ import { Button } from 'react-native-elements';
 import { Slider } from '@miblanchard/react-native-slider';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+import { db } from "../../firebase";
+import { doc, getDoc, onSnapshot } from "firebase/firestore";
+
+
 const ResultsScreen = ({ route, navigation }) => {
   const { american, japanese, italian, chinese, noCuisine } = route.params;
 
@@ -16,6 +20,22 @@ const ResultsScreen = ({ route, navigation }) => {
   const [restaurantCuisine, setRestaurantCuisine] = React.useState("");
   const [restaurantDistance, setRestaurantDistance] = React.useState("");
   const [restaurantImage, setRestaurantImage] = React.useState("");
+
+  const [restaurant, setRestaurant] = useState([]);
+
+  // Retrieiving a document from Firestore
+  const getDocument = async ( restoName ) => {
+    if (restoName != '') {
+      const docRef = doc(db, "restaurants", restoName);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        setRestaurant(docSnap.data());
+      } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+      }
+    }
+  };
 
   useEffect(() => {
     if (american) {
@@ -54,7 +74,7 @@ const ResultsScreen = ({ route, navigation }) => {
       setRestaurantCuisine("Italian, Pizza");
       setRestaurantDistance("1.7");
       setRestaurantImage(require("../.././assets/terun.jpg"));
-    } else {
+    } else if (noCuisine) {
       setDishName("BBQ Mix");
       setDishPrice("$25.99");
       setDishImage(require("../.././assets/bbq_mix.jpg"));
@@ -65,6 +85,10 @@ const ResultsScreen = ({ route, navigation }) => {
       setRestaurantImage(require("../.././assets/lnl.jpg"));
     }
   }, []);
+
+  useEffect(() => {
+    getDocument(restaurantName);
+  }, [restaurantName]);
   
   return (
     <View style={styles.container}>
@@ -107,14 +131,14 @@ const ResultsScreen = ({ route, navigation }) => {
             buttonStyle={styles.buttonMain} 
             titleStyle={styles.buttonTitle} 
             containerStyle={styles.buttonContainer} 
-            onPress={() => {navigation.navigate("ResultsScreen")}}
+            onPress={() => navigation.navigate('RestaurantPage', {name: restaurant.name, category: restaurant.category, distance: restaurant.distance, yelp: restaurant.yelp, walkthrough: restaurant.walkthrough, operatingDays: restaurant.operatingDays, operatingHours: restaurant.operatingHours, address: restaurant.address, phone: restaurant.phone })}
           />
           <Button 
             title="More information" 
             buttonStyle={styles.button} 
             titleStyle={styles.buttonTitle} 
             containerStyle={styles.buttonContainer} 
-            onPress={() => {navigation.navigate("ResultsScreen")}}
+            onPress={() => navigation.navigate('MoreInfo', {name: restaurant.name, category: restaurant.category, distance: restaurant.distance, yelp: restaurant.yelp, walkthrough: restaurant.walkthrough, operatingDays: restaurant.operatingDays, operatingHours: restaurant.operatingHours, address: restaurant.address, phone: restaurant.phone })}
           />
           <Pressable onPress={() => navigation.navigate('PreferencesScreen')}>
             <Text style={styles.action}>Try again!</Text>
@@ -239,6 +263,15 @@ const styles = StyleSheet.create({
   buttonContainer: {
     width: '80%',
     marginTop: '4%',
+  },
+  buttonStyle: {
+    backgroundColor: '#F1EBEA',
+    borderRadius: 10,    
+    height: 50, 
+    width: '80%',
+    marginTop: '4%',
+    justifyContent: "center",
+    alignItems: "center",
   },
   action: {
     fontSize: 16,
