@@ -167,13 +167,33 @@ const QuestionsScreen = () => {
             buttonStyle={styles.button} 
             titleStyle={styles.buttonTitle} 
             containerStyle={styles.buttonContainer} 
-            onPress={() => {navigation.navigate("ResultsScreen", {
-              american: american,
-              japanese: japanese,
-              italian: italian,
-              chinese: chinese,
-              noCuisine: noCuisine
-            })}}
+            onPress={() => {
+              if (!american && !japanese && !italian && !chinese && !noCuisine) {
+                setNoCuisine(true);
+              } else if (!sweet && !salty && !umami && !spicy && !noFlavor) {
+                setNoFlavor(true);
+              } else if (!crunchy && !smooth && !creamy && !chewy && !noTexture) {
+                setNoTexture(true);
+              }
+
+              navigation.navigate("ResultsScreen", {
+                american: american,
+                japanese: japanese,
+                italian: italian,
+                chinese: chinese,
+                noCuisine: noCuisine,
+                sweet: sweet,
+                salty: salty,
+                umami: umami,
+                spicy: spicy,
+                noFlavor: noFlavor,
+                crunchy: crunchy,
+                smooth: smooth,
+                creamy: creamy,
+                chewy: chewy,
+                noTexture: noTexture,
+              }
+            )}}
           />
         </View>
 
